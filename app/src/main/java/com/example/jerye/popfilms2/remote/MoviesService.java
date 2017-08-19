@@ -13,10 +13,10 @@ import retrofit2.http.Query;
 public interface MoviesService {
 
 
-    @GET("/popoular")
+    @GET("popular")
     Observable<MoviesResult> getPopularMovies(@Query("api_key") String apiKey);
 
-    @GET("/top_rated")
+    @GET("top_rated")
     Observable<MoviesResult> getTopRatedMovies(@Query("api_key") String apiKey);
 
 }

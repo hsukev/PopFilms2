@@ -1,59 +1,70 @@
 package com.example.jerye.popfilms2;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by jerye on 8/13/2017.
  */
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
-    private Cursor mCursor;
     private Context mContext;
+    private List<String> posterPaths = new ArrayList<>();
 
-    public MoviesAdapter(Context context){
+    public MoviesAdapter(Context context) {
         mContext = context;
     }
 
     @Override
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
-
+//        http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
+        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + posterPaths.get(position)).into(holder.gridPoster);
     }
 
     @Override
     public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.movies_grid_item,parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.movies_grid_item, parent, false);
         return new MoviesViewHolder(view);
 
     }
 
     @Override
     public int getItemCount() {
-        return mCursor.getCount();
+        return posterPaths.size();
     }
 
-    public class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.grid_poster)
+        ImageView gridPoster;
+        @BindView(R.id.grid_date)
+        TextView gridDate;
 
-        public MoviesViewHolder(View view){
+        public MoviesViewHolder(View view) {
             super(view);
+            ButterKnife.bind(this, view);
         }
 
         @Override
         public void onClick(View view) {
-            mCursor.getPosition();
+            getAdapterPosition();
         }
     }
 
-    public void refreshCursor(Cursor cursor){
-        mCursor = cursor;
+    public void addMovies(String posterPath) {
+        posterPaths.add(posterPath);
         notifyDataSetChanged();
     }
 

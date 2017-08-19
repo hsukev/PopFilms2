@@ -1,9 +1,10 @@
 package com.example.jerye.popfilms2.data.model;
 
-import java.io.Serializable;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.List;
 
 public class MoviesResult implements Serializable
 {
