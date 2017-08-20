@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
-import com.example.jerye.popfilms2.adapter.MoviesItemAnimator;
 import com.example.jerye.popfilms2.data.model.MoviesResult;
 import com.example.jerye.popfilms2.data.model.Result;
 import com.example.jerye.popfilms2.remote.MoviesService;
@@ -30,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Nullable
     @BindView(R.id.rv_main)
-    RecyclerView rvMain;
+    GridRecyclerView rvMain;
 
     MoviesAdapter moviesAdapter;
     String TAG = "MainActivity.java";
@@ -41,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+
+    }
+
+    @Override
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
         setUpGrid();
         setUpNetwork();
 
@@ -51,10 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
         moviesAdapter = new MoviesAdapter(this);
 
-        rvMain.setAdapter(moviesAdapter);
         rvMain.setLayoutManager(gridLayoutManager);
-        rvMain.setItemAnimator(new MoviesItemAnimator());
-
+        rvMain.setAdapter(moviesAdapter);
+        rvMain.scheduleLayoutAnimation();
     }
 
     public void setUpNetwork() {
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new DisposableObserver<String>() {
                     @Override
                     public void onNext(@NonNull String s) {
-                        moviesAdapter.addMovies(s);
+//                        moviesAdapter.addMovies(s);
                     }
 
                     @Override

@@ -13,7 +13,7 @@ public class Utils {
     private static int SCREEN_HEIGHT = 0;
     private static int SCREEN_WIDTH = 0;
 
-    public static int getScreenHeight(Context context){
+    public static int getScreenHeight(Context context) {
         if (SCREEN_HEIGHT == 0) {
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             Display display = wm.getDefaultDisplay();
@@ -24,7 +24,7 @@ public class Utils {
         return SCREEN_HEIGHT;
     }
 
-    public static int getScreenWidth(Context context){
+    public static int getScreenWidth(Context context) {
         if (SCREEN_WIDTH == 0) {
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             Display display = wm.getDefaultDisplay();
@@ -33,4 +33,5 @@ public class Utils {
             SCREEN_WIDTH = size.y;
         }
         return SCREEN_WIDTH;
+    }
 }

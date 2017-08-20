@@ -11,8 +11,9 @@
 
     <ImageView
         android:id="@+id/grid_poster"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter" />
 

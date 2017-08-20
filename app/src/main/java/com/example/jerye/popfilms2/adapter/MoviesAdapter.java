@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jerye.popfilms2.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     @Override
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
 //        http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
-        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + posterPaths.get(position)).into(holder.gridPoster);
+//        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + posterPaths.get(position)).into(holder.gridPoster);
     }
 
     @Override
@@ -44,7 +43,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public int getItemCount() {
-        return posterPaths.size();
+        return 10;
+//                posterPaths.size();
     }
 
     public class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -62,11 +62,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         public void onClick(View view) {
             getAdapterPosition();
         }
+
+
     }
 
     public void addMovies(String posterPath) {
         posterPaths.add(posterPath);
-        notifyDataSetChanged();
+        notifyItemInserted(posterPaths.size());
     }
 
 
