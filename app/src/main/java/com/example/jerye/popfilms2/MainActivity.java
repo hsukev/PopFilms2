@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.annotations.Nullable;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -26,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Nullable
+
     @BindView(R.id.rv_main)
     GridRecyclerView rvMain;
 
@@ -45,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
+        Log.d("test", "onEnterAnimation");
         setUpGrid();
         setUpNetwork();
 
@@ -57,15 +57,17 @@ public class MainActivity extends AppCompatActivity {
 
         rvMain.setLayoutManager(gridLayoutManager);
         rvMain.setAdapter(moviesAdapter);
-        rvMain.scheduleLayoutAnimation();
     }
 
     public void setUpNetwork() {
+
         Retrofit retrofitClient = new Retrofit.Builder()
                 .baseUrl("https://api.themoviedb.org/3/movie/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+        Log.d("test", "client created");
 
         MoviesService moviesService = retrofitClient.create(MoviesService.class);
         Observable<MoviesResult> moviesResult = moviesService.getPopularMovies(BuildConfig.TMDB_API_KEY);
@@ -77,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new DisposableObserver<String>() {
                     @Override
                     public void onNext(@NonNull String s) {
-//                        moviesAdapter.addMovies(s);
+                        Log.d("test", "onNext");
+                        moviesAdapter.addMovies(s);
                     }
 
                     @Override
@@ -89,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete() {
                         Log.d(TAG, "complete");
+                        moviesAdapter.finishedAdding();
+                        rvMain.scheduleLayoutAnimation();
+
                     }
                 });
 
