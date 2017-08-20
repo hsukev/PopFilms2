@@ -1,15 +1,16 @@
 package com.example.jerye.popfilms2;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.Menu;
 
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
 import com.example.jerye.popfilms2.data.model.MoviesResult;
 import com.example.jerye.popfilms2.data.model.Result;
 import com.example.jerye.popfilms2.remote.MoviesService;
+import com.example.jerye.popfilms2.util.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,11 +24,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
 
     @BindView(R.id.rv_main)
     GridRecyclerView rvMain;
+
 
     MoviesAdapter moviesAdapter;
     String TAG = "MainActivity.java";
@@ -38,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        startUpAnimation();
+        setUpGrid();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(TAG, "options menu");
+        return true;
 
     }
 
@@ -45,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
         Log.d("test", "onEnterAnimation");
-        setUpGrid();
         setUpNetwork();
 
     }
@@ -98,6 +107,34 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    public void startUpAnimation() {
+        int height = Utils.dpToPx(56);
+        getToolbar().setTranslationY(-height);
+        getAppTitle().setTranslationY(-height);
+        getBox1().setTranslationY(-height);
+        getBox2().setTranslationY(-height);
+
+        getToolbar().animate()
+                .translationY(0)
+                .setDuration(300)
+                .setStartDelay(300);
+
+        getAppTitle().animate()
+                .translationY(0)
+                .setDuration(300)
+                .setStartDelay(400);
+        getBox1().animate()
+                .translationY(0)
+                .setDuration(300)
+                .setStartDelay(500);
+
+        getBox2().animate()
+                .translationY(0)
+                .setDuration(300)
+                .setStartDelay(600)
+                .start();
     }
 
     public Function<MoviesResult, Observable<Result>> moviesResult2Result() {

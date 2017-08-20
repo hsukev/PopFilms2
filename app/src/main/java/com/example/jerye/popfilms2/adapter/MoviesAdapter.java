@@ -36,7 +36,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
 //        http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + posterPaths.get(position)).into(holder.gridPoster);
-        Log.d("test", "bind: " + position);
 
     }
 
@@ -49,7 +48,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public int getItemCount() {
-        Log.d("test", "poster size: " + posterPaths.size());
         return posterPaths.size();
     }
 
@@ -77,12 +75,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + posterPath).fetch(new Callback() {
             @Override
             public void onSuccess() {
-                Log.d("test", "cached");
                 count++;
                 if(count >= 20){
-                    Log.d("test", "cached 20");
                     notifyDataSetChanged();
-
                 }
             }
 
