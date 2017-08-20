@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.example.jerye.popfilms2.adapter.MoviesAdapter;
+import com.example.jerye.popfilms2.adapter.MoviesItemAnimator;
 import com.example.jerye.popfilms2.data.model.MoviesResult;
 import com.example.jerye.popfilms2.data.model.Result;
 import com.example.jerye.popfilms2.remote.MoviesService;
@@ -51,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         rvMain.setAdapter(moviesAdapter);
         rvMain.setLayoutManager(gridLayoutManager);
+        rvMain.setItemAnimator(new MoviesItemAnimator());
 
     }
 
     public void setUpNetwork() {
-        Log.d(TAG, "network");
         Retrofit retrofitClient = new Retrofit.Builder()
                 .baseUrl("https://api.themoviedb.org/3/movie/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -73,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onNext(@NonNull String s) {
                         moviesAdapter.addMovies(s);
-                        Log.d(TAG, s);
                     }
 
                     @Override

@@ -1,4 +1,4 @@
-package com.example.jerye.popfilms2;
+package com.example.jerye.popfilms2.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jerye.popfilms2.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -67,6 +68,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         posterPaths.add(posterPath);
         notifyDataSetChanged();
     }
+
+
 
 
 }
