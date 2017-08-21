@@ -5,6 +5,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
 import com.example.jerye.popfilms2.data.model.MoviesResult;
@@ -24,11 +26,13 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MoviesAdapter.MovieAdapterListener {
 
 
     @BindView(R.id.rv_main)
     GridRecyclerView rvMain;
+    @BindView(R.id.load_screen)
+    ProgressBar loadBar;
 
 
     MoviesAdapter moviesAdapter;
@@ -59,10 +63,22 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onComplete() {
+        loadBar.setVisibility(View.GONE);
+        rvMain.scheduleLayoutAnimation();
+
+    }
+
+    @Override
+    public void onClick() {
+
+    }
+
     private void setUpGrid() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
 
-        moviesAdapter = new MoviesAdapter(this);
+        moviesAdapter = new MoviesAdapter(this, this);
 
         rvMain.setLayoutManager(gridLayoutManager);
         rvMain.setAdapter(moviesAdapter);
@@ -88,7 +104,6 @@ public class MainActivity extends BaseActivity {
                 .subscribe(new DisposableObserver<String>() {
                     @Override
                     public void onNext(@NonNull String s) {
-                        Log.d("test", "onNext");
                         moviesAdapter.addMovies(s);
                     }
 
@@ -102,8 +117,6 @@ public class MainActivity extends BaseActivity {
                     public void onComplete() {
                         Log.d(TAG, "complete");
                         moviesAdapter.finishedAdding();
-                        rvMain.scheduleLayoutAnimation();
-
                     }
                 });
 

@@ -25,16 +25,19 @@ import butterknife.ButterKnife;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
     private Context mContext;
+    private MovieAdapterListener movieAdapterListener;
     private List<String> posterPaths = new ArrayList<>();
     private int count = 0;
 
-    public MoviesAdapter(Context context) {
+    public MoviesAdapter(Context context, MovieAdapterListener movieAdapterListener) {
         mContext = context;
+        this.movieAdapterListener = movieAdapterListener;
     }
 
     @Override
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
 //        http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
+        Log.d("test", "bind view");
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + posterPaths.get(position)).into(holder.gridPoster);
 
     }
@@ -78,6 +81,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
                 count++;
                 if(count >= 20){
                     notifyDataSetChanged();
+                    movieAdapterListener.onComplete();
+
                 }
             }
 
@@ -91,6 +96,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     public void finishedAdding(){
         Log.d("test", "finished adding");
+
+    }
+
+    public interface MovieAdapterListener{
+        void onClick();
+        void onComplete();
 
     }
 

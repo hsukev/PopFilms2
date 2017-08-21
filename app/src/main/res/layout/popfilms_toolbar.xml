@@ -6,7 +6,7 @@
     android:layout_height="?android:actionBarSize"
     android:background="@color/colorPrimary"
     android:elevation="@dimen/toolbar_elevation"
-    app:layout_collapseMode="pin"
+    app:layout_collapseMode="parallax"
     android:orientation="vertical">
 
     <TextView
