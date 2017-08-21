@@ -32,6 +32,7 @@ public class BaseActivity extends AppCompatActivity {
     public void bindViews(){
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        this.getSupportActionBar().setTitle("");
     }
 
     public Toolbar getToolbar(){
