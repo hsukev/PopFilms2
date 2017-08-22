@@ -80,9 +80,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             @Override
             public void onSuccess() {
                 count++;
-                if(count >= 20){
+                if(count == 20){
                     notifyDataSetChanged();
                     movieAdapterListener.onComplete();
+                }else if(count > 20){
+                    notifyDataSetChanged();
                 }
             }
 

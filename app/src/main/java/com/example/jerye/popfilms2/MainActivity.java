@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.example.jerye.popfilms2.adapter.MovieScrollListener;
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
 import com.example.jerye.popfilms2.data.model.MoviesResult;
 import com.example.jerye.popfilms2.data.model.Result;
@@ -26,7 +27,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends BaseActivity implements MoviesAdapter.MovieAdapterListener {
+public class MainActivity extends BaseActivity implements MoviesAdapter.MovieAdapterListener,
+        MovieScrollListener.ReloadListener{
 
 
     @BindView(R.id.rv_main)
@@ -36,7 +38,10 @@ public class MainActivity extends BaseActivity implements MoviesAdapter.MovieAda
 
 
     MoviesAdapter moviesAdapter;
+    MoviesService moviesService;
     String TAG = "MainActivity.java";
+
+    int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +80,19 @@ public class MainActivity extends BaseActivity implements MoviesAdapter.MovieAda
 
     }
 
+    @Override
+    public void loadMore() {
+        page++;
+        fetchMovieData(page);
+    }
+
     private void setUpGrid() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
 
         moviesAdapter = new MoviesAdapter(this, this);
 
         rvMain.setLayoutManager(gridLayoutManager);
+        rvMain.addOnScrollListener(new MovieScrollListener(gridLayoutManager, this));
         rvMain.setAdapter(moviesAdapter);
     }
 
@@ -92,10 +104,13 @@ public class MainActivity extends BaseActivity implements MoviesAdapter.MovieAda
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        Log.d("test", "client created");
+        moviesService = retrofitClient.create(MoviesService.class);
+        fetchMovieData(1);
 
-        MoviesService moviesService = retrofitClient.create(MoviesService.class);
-        Observable<MoviesResult> moviesResult = moviesService.getPopularMovies(BuildConfig.TMDB_API_KEY);
+    }
+
+    public void fetchMovieData(int page){
+        Observable<MoviesResult> moviesResult = moviesService.getPopularMovies(BuildConfig.TMDB_API_KEY, page);
         moviesResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(moviesResult2Result())
@@ -106,20 +121,14 @@ public class MainActivity extends BaseActivity implements MoviesAdapter.MovieAda
                     public void onNext(@NonNull String s) {
                         moviesAdapter.addMovies(s);
                     }
-
                     @Override
                     public void onError(@NonNull Throwable e) {
                         Log.d(TAG, "error: " + e);
-
                     }
-
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "complete");
-                        moviesAdapter.finishedAdding();
                     }
                 });
-
     }
 
     public void startUpAnimation() {

@@ -14,9 +14,11 @@ public interface MoviesService {
 
 
     @GET("popular")
-    Observable<MoviesResult> getPopularMovies(@Query("api_key") String apiKey);
+    Observable<MoviesResult> getPopularMovies(@Query("api_key") String apiKey,
+                                              @Query("page") int page);
 
     @GET("top_rated")
-    Observable<MoviesResult> getTopRatedMovies(@Query("api_key") String apiKey);
+    Observable<MoviesResult> getTopRatedMovies(@Query("api_key") String apiKey,
+                                               @Query("page") int page);
 
 }
