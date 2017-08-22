@@ -63,11 +63,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         public MoviesViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            getAdapterPosition();
+            Log.d("test", "position: " + getAdapterPosition());
         }
 
 
@@ -82,7 +83,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
                 if(count >= 20){
                     notifyDataSetChanged();
                     movieAdapterListener.onComplete();
-
                 }
             }
 

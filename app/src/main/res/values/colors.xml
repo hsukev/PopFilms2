@@ -3,4 +3,7 @@
     <color name="colorPrimary">#E91E63</color>
     <color name="colorPrimaryDark">#C2185B</color>
     <color name="colorAccent">#536DFE</color>
+
+    <color name="movie_pressed">#40000000</color>
+    <color name="movie_normal">#00ffffff</color>
 </resources>
