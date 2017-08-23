@@ -14,6 +14,11 @@ package com.example.jerye.popfilms2;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * Gist can be found here
+ * {@link https://gist.github.com/Musenkishi/8df1ab549857756098ba}
+ */
+//
 
 
 import android.content.Context;

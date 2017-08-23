@@ -75,10 +75,6 @@ public class MainActivity extends BaseActivity implements MoviesAdapter.MovieAda
 
     }
 
-    @Override
-    public void onClick() {
-
-    }
 
     @Override
     public void loadMore() {
@@ -114,12 +110,11 @@ public class MainActivity extends BaseActivity implements MoviesAdapter.MovieAda
         moviesResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(moviesResult2Result())
-                .map(result2Info())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<String>() {
+                .subscribe(new DisposableObserver<Result>() {
                     @Override
-                    public void onNext(@NonNull String s) {
-                        moviesAdapter.addMovies(s);
+                    public void onNext(@NonNull Result r) {
+                        moviesAdapter.addMovies(r);
                     }
                     @Override
                     public void onError(@NonNull Throwable e) {

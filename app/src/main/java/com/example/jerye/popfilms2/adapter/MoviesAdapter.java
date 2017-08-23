@@ -1,6 +1,8 @@
 package com.example.jerye.popfilms2.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jerye.popfilms2.DetailedActivity;
 import com.example.jerye.popfilms2.R;
+import com.example.jerye.popfilms2.data.model.Result;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -26,8 +30,11 @@ import butterknife.ButterKnife;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
     private Context mContext;
     private MovieAdapterListener movieAdapterListener;
-    private List<String> posterPaths = new ArrayList<>();
+    private List<Result> moviesList = new ArrayList<>();
     private int count = 0;
+    public static final String BUNDLE_KEY = "bundle key";
+    public static final String INTENT_KEY = "intent key";
+
 
     public MoviesAdapter(Context context, MovieAdapterListener movieAdapterListener) {
         mContext = context;
@@ -38,7 +45,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
 //        http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
         Log.d("test", "bind view");
-        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + posterPaths.get(position)).into(holder.gridPoster);
+        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + moviesList.get(position).getPosterPath()).into(holder.gridPoster);
 
     }
 
@@ -51,7 +58,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public int getItemCount() {
-        return posterPaths.size();
+        return moviesList.size();
     }
 
     public class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -69,14 +76,17 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         @Override
         public void onClick(View view) {
             Log.d("test", "position: " + getAdapterPosition());
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(BUNDLE_KEY, moviesList.get(getAdapterPosition()));
+            Intent intent = new Intent(mContext, DetailedActivity.class).putExtra(INTENT_KEY, bundle);
         }
 
 
     }
 
-    public void addMovies(String posterPath) {
-        posterPaths.add(posterPath);
-        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + posterPath).fetch(new Callback() {
+    public void addMovies(Result result) {
+        moviesList.add(result);
+        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + result.getPosterPath()).fetch(new Callback() {
             @Override
             public void onSuccess() {
                 count++;
@@ -102,7 +112,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     }
 
     public interface MovieAdapterListener{
-        void onClick();
         void onComplete();
 
     }
