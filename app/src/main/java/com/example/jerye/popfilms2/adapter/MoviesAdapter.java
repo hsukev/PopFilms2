@@ -79,6 +79,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             Bundle bundle = new Bundle();
             bundle.putSerializable(BUNDLE_KEY, moviesList.get(getAdapterPosition()));
             Intent intent = new Intent(mContext, DetailedActivity.class).putExtra(INTENT_KEY, bundle);
+            mContext.startActivity(intent);
         }
 
 

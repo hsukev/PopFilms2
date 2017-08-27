@@ -174,4 +174,6 @@ public class MainActivity extends BaseActivity implements MoviesAdapter.MovieAda
     }
 
 
+
+
 }
