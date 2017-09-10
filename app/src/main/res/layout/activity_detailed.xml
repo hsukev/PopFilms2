@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="2">
 
         <ListView
             android:id="@+id/detailed_genre"
@@ -40,9 +40,8 @@
 
         <com.example.jerye.popfilms2.util.Circle
             android:id="@+id/detailed_rating"
-            android:layout_width="30dp"
-            android:layout_weight="1"
-            android:layout_height="30dp" />
+            android:layout_width="300dp"
+            android:layout_height="300dp" />
     </LinearLayout>
 
     <android.support.v7.widget.CardView
