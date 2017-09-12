@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
+import com.example.jerye.popfilms2.data.model.GenreScheme;
 import com.example.jerye.popfilms2.data.model.Result;
 import com.example.jerye.popfilms2.util.Circle;
 import com.example.jerye.popfilms2.util.CircleAngleAnimation;
@@ -29,6 +30,10 @@ public class DetailedActivity extends AppCompatActivity {
     TextView releaseDate;
     @BindView(R.id.detailed_rating)
     Circle rating;
+    @BindView(R.id.detailed_summary)
+    TextView summary;
+    @BindView(R.id.detailed_genre)
+    TextView genreList;
 
     Result movie;
 
@@ -52,9 +57,12 @@ public class DetailedActivity extends AppCompatActivity {
     }
 
     public void populateViews(){
-        Picasso.with(this).load(movie.getBackdropPath()).into(background);
+        Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(background);
         title.setText(movie.getOriginalTitle());
         releaseDate.setText(movie.getReleaseDate());
+        summary.setText(movie.getOverview());
+        genreList.setText(GenreScheme.getGenre(movie.getGenreIds()));
+
         float ratingAngle = movie.getVoteAverage()*360/10;
         CircleAngleAnimation circleAngleAnimation = new CircleAngleAnimation(rating,ratingAngle);
         circleAngleAnimation.setDuration(3000);

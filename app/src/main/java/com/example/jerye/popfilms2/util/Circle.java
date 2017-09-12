@@ -38,7 +38,7 @@ public class Circle extends View {
         paint.setColor(Color.RED);
 
         //size 200x200 example
-        rect = new RectF(strokeWidth, strokeWidth, 200 + strokeWidth, 200 + strokeWidth);
+        rect = new RectF(strokeWidth, strokeWidth, 300  + strokeWidth, 300 + strokeWidth);
 
         //Initial Angle (optional, it can be zero)
         angle = 0;
