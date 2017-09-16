@@ -4,6 +4,7 @@ import com.example.jerye.popfilms2.data.model.MoviesResult;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -21,4 +22,8 @@ public interface MoviesService {
     Observable<MoviesResult> getTopRatedMovies(@Query("api_key") String apiKey,
                                                @Query("page") int page);
 
+    @GET("")
+    Observable<MoviesResult> getMovieCredit(@Path("movie_id") int movieId,
+                                            @Path("credit") String credit,
+                                            @Query("api_key") String apiKey);
 }
