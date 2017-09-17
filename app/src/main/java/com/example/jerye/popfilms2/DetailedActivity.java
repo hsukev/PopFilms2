@@ -6,7 +6,6 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +14,6 @@ import com.example.jerye.popfilms2.adapter.MoviesAdapter;
 import com.example.jerye.popfilms2.data.model.Cast;
 import com.example.jerye.popfilms2.data.model.Credits;
 import com.example.jerye.popfilms2.data.model.GenreScheme;
-import com.example.jerye.popfilms2.data.model.MoviesResult;
 import com.example.jerye.popfilms2.data.model.Result;
 import com.example.jerye.popfilms2.remote.MoviesService;
 import com.example.jerye.popfilms2.util.Circle;
@@ -70,6 +68,7 @@ public class DetailedActivity extends AppCompatActivity {
         super.onStart();
         movie = retrieveMovie();
         populateViews();
+        setUpNetwork();
     }
 
     public Result retrieveMovie() {
@@ -86,7 +85,7 @@ public class DetailedActivity extends AppCompatActivity {
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL,false);
         cast.setLayoutManager(gridLayoutManager);
-        castAdapter = new CastAdapter(this)
+        castAdapter = new CastAdapter(this);
         cast.setAdapter(castAdapter);
 
         float ratingAngle = movie.getVoteAverage() * 360 / 10;
@@ -105,12 +104,12 @@ public class DetailedActivity extends AppCompatActivity {
                 .build();
 
         castService = retrofitClient.create(MoviesService.class);
-        fetchCastData(1);
+        fetchCastData();
 
     }
 
-    public void fetchCastData(int page){
-        Observable<MoviesResult> moviesResult = castService.getMovieCredit(movie.getId(),"",BuildConfig.TMDB_API_KEY);
+    public void fetchCastData(){
+        Observable<Credits> moviesResult = castService.getMovieCredit(movie.getId(),BuildConfig.TMDB_API_KEY);
         moviesResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(credits2Cast())
@@ -118,7 +117,7 @@ public class DetailedActivity extends AppCompatActivity {
                 .subscribe(new DisposableObserver<Cast>() {
                     @Override
                     public void onNext(@NonNull Cast cast) {
-                        
+                        castAdapter.addCast(cast);
                     }
 
                     @Override

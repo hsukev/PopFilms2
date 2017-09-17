@@ -32,7 +32,7 @@ public class Cast implements Parcelable
     private Integer order;
     @SerializedName("profile_path")
     @Expose
-    private Object profilePath;
+    private String profilePath;
     public final static Parcelable.Creator<Cast> CREATOR = new Creator<Cast>() {
 
 
@@ -48,7 +48,7 @@ public class Cast implements Parcelable
             instance.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
             instance.name = ((String) in.readValue((String.class.getClassLoader())));
             instance.order = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.profilePath = ((Object) in.readValue((Object.class.getClassLoader())));
+            instance.profilePath = ((String) in.readValue((Object.class.getClassLoader())));
             return instance;
         }
 
@@ -115,11 +115,11 @@ public class Cast implements Parcelable
         this.order = order;
     }
 
-    public Object getProfilePath() {
+    public String getProfilePath() {
         return profilePath;
     }
 
-    public void setProfilePath(Object profilePath) {
+    public void setProfilePath(String profilePath) {
         this.profilePath = profilePath;
     }
 

@@ -1,5 +1,6 @@
 package com.example.jerye.popfilms2.remote;
 
+import com.example.jerye.popfilms2.data.model.Credits;
 import com.example.jerye.popfilms2.data.model.MoviesResult;
 
 import io.reactivex.Observable;
@@ -22,8 +23,7 @@ public interface MoviesService {
     Observable<MoviesResult> getTopRatedMovies(@Query("api_key") String apiKey,
                                                @Query("page") int page);
 
-    @GET("")
-    Observable<MoviesResult> getMovieCredit(@Path("movie_id") int movieId,
-                                            @Path("credit") String credit,
-                                            @Query("api_key") String apiKey);
+    @GET("{id}/credits")
+    Observable<Credits> getMovieCredit(@Path("id") int movieId,
+                                       @Query("api_key") String apiKey);
 }
