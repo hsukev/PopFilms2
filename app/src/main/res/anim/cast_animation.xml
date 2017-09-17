@@ -3,5 +3,5 @@
     android:animation="@anim/slide_in_end"
     android:animationOrder="normal"
     android:columnDelay="15%"
-    android:direction="top_to_bottom|left_to_right"
+    android:direction="left_to_right"
     android:rowDelay="15%" />

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.jerye.popfilms2.R;
 import com.example.jerye.popfilms2.data.model.Cast;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,12 +23,16 @@ import butterknife.ButterKnife;
  * Created by jerye on 9/16/2017.
  */
 
-public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> {
+public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> implements Callback{
     private Context mContext;
     private List<Cast> castList = new ArrayList<>();
+    private CastAdapterListener castAdapterListener;
+    private int count = 0;
 
-    public CastAdapter(Context context) {
+    public CastAdapter(Context context, CastAdapterListener castAdapterListener) {
         mContext = context;
+        this.castAdapterListener = castAdapterListener;
+
     }
 
     @Override
@@ -49,7 +54,24 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
     public void addCast(Cast cast) {
         castList.add(cast);
-        notifyDataSetChanged();
+        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + cast.getProfilePath()).fetch(this);
+
+    }
+
+    @Override
+    public void onSuccess() {
+        count++;
+        if(count == 10){
+            notifyDataSetChanged();
+            castAdapterListener.onComplete();
+        }else if(count > 10){
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onError() {
+
     }
 
     public class CastViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -67,6 +89,10 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
         public void onClick(View view) {
 
         }
+    }
+
+    public interface CastAdapterListener{
+        void onComplete();
     }
 
 }

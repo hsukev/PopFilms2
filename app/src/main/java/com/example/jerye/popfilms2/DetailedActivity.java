@@ -36,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by jerye on 8/22/2017.
  */
 
-public class DetailedActivity extends AppCompatActivity {
+public class DetailedActivity extends AppCompatActivity implements CastAdapter.CastAdapterListener{
     @BindView(R.id.detailed_background)
     ImageView background;
     @BindView(R.id.detailed_title)
@@ -76,6 +76,11 @@ public class DetailedActivity extends AppCompatActivity {
         return (Result) bundle.getSerializable(MoviesAdapter.BUNDLE_KEY);
     }
 
+    @Override
+    public void onComplete() {
+        cast.scheduleLayoutAnimation();
+    }
+
     public void populateViews() {
         Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(background);
         title.setText(movie.getOriginalTitle());
@@ -85,7 +90,7 @@ public class DetailedActivity extends AppCompatActivity {
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL,false);
         cast.setLayoutManager(gridLayoutManager);
-        castAdapter = new CastAdapter(this);
+        castAdapter = new CastAdapter(this,this);
         cast.setAdapter(castAdapter);
 
         float ratingAngle = movie.getVoteAverage() * 360 / 10;

@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * Created by jerye on 8/13/2017.
  */
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> implements Callback{
     private Context mContext;
     private MovieAdapterListener movieAdapterListener;
     private List<Result> moviesList = new ArrayList<>();
@@ -87,24 +87,23 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     public void addMovies(Result result) {
         moviesList.add(result);
-        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + result.getPosterPath()).fetch(new Callback() {
-            @Override
-            public void onSuccess() {
-                count++;
-                if(count == 20){
-                    notifyDataSetChanged();
-                    movieAdapterListener.onComplete();
-                }else if(count > 20){
-                    notifyDataSetChanged();
-                }
-            }
+        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + result.getPosterPath()).fetch(this);
+    }
 
-            @Override
-            public void onError() {
-                Log.d("test", "cache error");
+    @Override
+    public void onSuccess() {
+        count++;
+        if(count == 20){
+            notifyDataSetChanged();
+            movieAdapterListener.onComplete();
+        }else if(count > 20){
+            notifyDataSetChanged();
+        }
+    }
 
-            }
-        });
+    @Override
+    public void onError() {
+        Log.d("test", "cache error");
     }
 
     public void finishedAdding(){
