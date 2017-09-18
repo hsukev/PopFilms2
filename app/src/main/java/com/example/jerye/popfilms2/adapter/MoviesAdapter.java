@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.jerye.popfilms2.DetailedActivity;
 import com.example.jerye.popfilms2.R;
-import com.example.jerye.popfilms2.data.model.Result;
+import com.example.jerye.popfilms2.data.model.movies.Result;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

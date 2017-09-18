@@ -27,6 +27,7 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
+
         <TextView
             android:id="@+id/detailed_genre"
             android:layout_width="0dp"
@@ -40,11 +41,24 @@
             android:layout_weight="1"
             tools:text="JULY \n 01 17" />
 
-        <com.example.jerye.popfilms2.util.Circle
-            android:id="@+id/detailed_rating"
+        <FrameLayout
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp">
+
+            <com.example.jerye.popfilms2.util.Circle
+                android:id="@+id/detailed_rating"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+
+            <TextView
+                android:id="@+id/detailed_rating_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                tools:text="9.3" />
+        </FrameLayout>
     </LinearLayout>
+
 
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"

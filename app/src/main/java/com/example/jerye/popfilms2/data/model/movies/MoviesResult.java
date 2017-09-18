@@ -1,4 +1,4 @@
-package com.example.jerye.popfilms2.data.model;
+package com.example.jerye.popfilms2.data.model.movies;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

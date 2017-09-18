@@ -11,10 +11,11 @@ import android.widget.TextView;
 
 import com.example.jerye.popfilms2.adapter.CastAdapter;
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
-import com.example.jerye.popfilms2.data.model.Cast;
-import com.example.jerye.popfilms2.data.model.Credits;
 import com.example.jerye.popfilms2.data.model.GenreScheme;
-import com.example.jerye.popfilms2.data.model.Result;
+import com.example.jerye.popfilms2.data.model.credits.Cast;
+import com.example.jerye.popfilms2.data.model.credits.Credits;
+import com.example.jerye.popfilms2.data.model.movies.Result;
+import com.example.jerye.popfilms2.data.model.review.Review;
 import com.example.jerye.popfilms2.remote.MoviesService;
 import com.example.jerye.popfilms2.util.Circle;
 import com.example.jerye.popfilms2.util.CircleAngleAnimation;
@@ -45,6 +46,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     TextView releaseDate;
     @BindView(R.id.detailed_rating)
     Circle rating;
+    @BindView(R.id.detailed_rating_number)
+    TextView ratingNumber;
     @BindView(R.id.detailed_summary)
     TextView summary;
     @BindView(R.id.detailed_genre)
@@ -87,6 +90,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         releaseDate.setText(movie.getReleaseDate());
         summary.setText(movie.getOverview());
         genreList.setText(GenreScheme.getGenre(movie.getGenreIds()));
+        ratingNumber.setText(String.valueOf(movie.getVoteAverage()));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL,false);
         cast.setLayoutManager(gridLayoutManager);
@@ -114,8 +118,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     }
 
     public void fetchCastData(){
-        Observable<Credits> moviesResult = castService.getMovieCredit(movie.getId(),BuildConfig.TMDB_API_KEY);
-        moviesResult
+        Observable<Credits> creditsResult = castService.getMovieCredit(movie.getId(),BuildConfig.TMDB_API_KEY);
+        creditsResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(credits2Cast())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -135,6 +139,28 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
                     }
                 });
+        Observable<Review> reviewsResult = castService.getMovieReview(movie.getId(),BuildConfig.TMDB_API_KEY,1);
+        reviewsResult
+                .subscribeOn(Schedulers.io())
+                .flatMap(review2Result())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableObserver<com.example.jerye.popfilms2.data.model.review.Result>() {
+                    @Override
+                    public void onNext(@NonNull com.example.jerye.popfilms2.data.model.review.Result result) {
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 
     public Function<Credits, Observable<Cast>> credits2Cast(){
@@ -142,6 +168,15 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
             @Override
             public Observable<Cast> apply(@NonNull Credits credits) throws Exception {
                 return Observable.fromIterable(credits.getCast());
+            }
+        };
+    }
+
+    public Function<Review, Observable<com.example.jerye.popfilms2.data.model.review.Result>> review2Result(){
+        return new Function<Review, Observable<com.example.jerye.popfilms2.data.model.review.Result>>() {
+            @Override
+            public Observable<com.example.jerye.popfilms2.data.model.review.Result> apply(@NonNull Review review) throws Exception {
+                return Observable.fromIterable(review.getResults());
             }
         };
     }

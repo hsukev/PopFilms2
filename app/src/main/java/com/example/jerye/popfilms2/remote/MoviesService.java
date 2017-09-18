@@ -1,7 +1,8 @@
 package com.example.jerye.popfilms2.remote;
 
-import com.example.jerye.popfilms2.data.model.Credits;
-import com.example.jerye.popfilms2.data.model.MoviesResult;
+import com.example.jerye.popfilms2.data.model.credits.Credits;
+import com.example.jerye.popfilms2.data.model.movies.MoviesResult;
+import com.example.jerye.popfilms2.data.model.review.Review;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -26,4 +27,9 @@ public interface MoviesService {
     @GET("{id}/credits")
     Observable<Credits> getMovieCredit(@Path("id") int movieId,
                                        @Query("api_key") String apiKey);
+
+    @GET("{id}/reviews")
+    Observable<Review> getMovieReview(@Path("id") int movieId,
+                                      @Query("api_key") String apiKey,
+                                      @Query("page") int page);
 }

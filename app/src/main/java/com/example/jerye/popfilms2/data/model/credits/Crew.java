@@ -1,4 +1,4 @@
-package com.example.jerye.popfilms2.data.model;
+package com.example.jerye.popfilms2.data.model.credits;
 
 import android.os.Parcel;
 import android.os.Parcelable;

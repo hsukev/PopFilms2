@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jerye.popfilms2.R;
-import com.example.jerye.popfilms2.data.model.Cast;
+import com.example.jerye.popfilms2.data.model.credits.Cast;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

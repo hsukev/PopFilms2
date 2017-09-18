@@ -1,4 +1,4 @@
-package com.example.jerye.popfilms2.data.model;
+package com.example.jerye.popfilms2.data.model.credits;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -29,8 +29,8 @@ public class Credits implements Parcelable
         public Credits createFromParcel(Parcel in) {
             Credits instance = new Credits();
             instance.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            in.readList(instance.cast, (com.example.jerye.popfilms2.data.model.Cast.class.getClassLoader()));
-            in.readList(instance.crew, (com.example.jerye.popfilms2.data.model.Crew.class.getClassLoader()));
+            in.readList(instance.cast, (Cast.class.getClassLoader()));
+            in.readList(instance.crew, (Crew.class.getClassLoader()));
             return instance;
         }
 

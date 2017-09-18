@@ -10,8 +10,8 @@ import android.widget.ProgressBar;
 
 import com.example.jerye.popfilms2.adapter.MovieScrollListener;
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
-import com.example.jerye.popfilms2.data.model.MoviesResult;
-import com.example.jerye.popfilms2.data.model.Result;
+import com.example.jerye.popfilms2.data.model.movies.MoviesResult;
+import com.example.jerye.popfilms2.data.model.movies.Result;
 import com.example.jerye.popfilms2.remote.MoviesService;
 import com.example.jerye.popfilms2.util.Utils;
 
