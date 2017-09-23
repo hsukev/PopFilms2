@@ -6,11 +6,13 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jerye.popfilms2.adapter.CastAdapter;
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
+import com.example.jerye.popfilms2.adapter.ReviewsAdapter;
 import com.example.jerye.popfilms2.data.model.GenreScheme;
 import com.example.jerye.popfilms2.data.model.credits.Cast;
 import com.example.jerye.popfilms2.data.model.credits.Credits;
@@ -37,7 +39,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by jerye on 8/22/2017.
  */
 
-public class DetailedActivity extends AppCompatActivity implements CastAdapter.CastAdapterListener{
+public class DetailedActivity extends AppCompatActivity implements CastAdapter.CastAdapterListener,
+        ReviewsAdapter.ReviewsAdapterListener {
+
     @BindView(R.id.detailed_background)
     ImageView background;
     @BindView(R.id.detailed_title)
@@ -54,10 +58,13 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     TextView genreList;
     @BindView(R.id.detailed_cast)
     GridRecyclerView cast;
+    @BindView(R.id.detailed_reviews)
+    RecyclerView reviews;
 
     Result movie;
     MoviesService castService;
     CastAdapter castAdapter;
+    ReviewsAdapter reviewsAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,10 +99,15 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         genreList.setText(GenreScheme.getGenre(movie.getGenreIds()));
         ratingNumber.setText(String.valueOf(movie.getVoteAverage()));
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL, false);
         cast.setLayoutManager(gridLayoutManager);
-        castAdapter = new CastAdapter(this,this);
+        castAdapter = new CastAdapter(this, this);
         cast.setAdapter(castAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        reviews.setLayoutManager(linearLayoutManager);
+        reviewsAdapter = new ReviewsAdapter(this, this);
+        reviews.setAdapter(reviewsAdapter);
 
         float ratingAngle = movie.getVoteAverage() * 360 / 10;
         CircleAngleAnimation circleAngleAnimation = new CircleAngleAnimation(rating, ratingAngle);
@@ -117,8 +129,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
     }
 
-    public void fetchCastData(){
-        Observable<Credits> creditsResult = castService.getMovieCredit(movie.getId(),BuildConfig.TMDB_API_KEY);
+    public void fetchCastData() {
+        Observable<Credits> creditsResult = castService.getMovieCredit(movie.getId(), BuildConfig.TMDB_API_KEY);
         creditsResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(credits2Cast())
@@ -139,7 +151,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
                     }
                 });
-        Observable<Review> reviewsResult = castService.getMovieReview(movie.getId(),BuildConfig.TMDB_API_KEY,1);
+        Observable<Review> reviewsResult = castService.getMovieReview(movie.getId(), BuildConfig.TMDB_API_KEY, 1);
         reviewsResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(review2Result())
@@ -147,7 +159,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                 .subscribe(new DisposableObserver<com.example.jerye.popfilms2.data.model.review.Result>() {
                     @Override
                     public void onNext(@NonNull com.example.jerye.popfilms2.data.model.review.Result result) {
-
+                        reviewsAdapter.addReviews(result);
                     }
 
                     @Override
@@ -163,7 +175,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
     }
 
-    public Function<Credits, Observable<Cast>> credits2Cast(){
+    public Function<Credits, Observable<Cast>> credits2Cast() {
         return new Function<Credits, Observable<Cast>>() {
             @Override
             public Observable<Cast> apply(@NonNull Credits credits) throws Exception {
@@ -172,7 +184,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         };
     }
 
-    public Function<Review, Observable<com.example.jerye.popfilms2.data.model.review.Result>> review2Result(){
+    public Function<Review, Observable<com.example.jerye.popfilms2.data.model.review.Result>> review2Result() {
         return new Function<Review, Observable<com.example.jerye.popfilms2.data.model.review.Result>>() {
             @Override
             public Observable<com.example.jerye.popfilms2.data.model.review.Result> apply(@NonNull Review review) throws Exception {
@@ -180,7 +192,4 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
             }
         };
     }
-
-
-
 }
