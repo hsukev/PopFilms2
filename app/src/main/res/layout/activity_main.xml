@@ -24,7 +24,6 @@
             <include
                 android:id="@+id/toolbar"
                 layout="@layout/popfilms_toolbar" />
-
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 

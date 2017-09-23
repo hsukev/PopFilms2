@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jerye.popfilms2.R;
@@ -18,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by jerye on 9/16/2017.
@@ -49,7 +49,8 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     @Override
     public void onBindViewHolder(CastViewHolder holder, int position) {
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + castList.get(position).getProfilePath()).into(holder.castProfile);
-        holder.castName.setText(castList.get(position).getName());
+        String name = castList.get(position).getName();
+        holder.castName.setText(name.replace(' ','\n'));
     }
 
     public void addCast(Cast cast) {
@@ -78,7 +79,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
         @BindView(R.id.cast_name)
         TextView castName;
         @BindView(R.id.cast_profile)
-        ImageView castProfile;
+        CircleImageView castProfile;
 
         CastViewHolder(View view) {
             super(view);

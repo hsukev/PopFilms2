@@ -2,26 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="8dp">
+
+    <TextView
+        android:id="@+id/reviews_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:layout_height="wrap_content">
+        >
 
 
         <TextView
             android:id="@+id/reviews_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:maxLines="2"
-            android:ellipsize="end"/>
-
-        <TextView
-            android:gravity="end"
-            android:id="@+id/reviews_author"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:padding="8dp"/>
 
     </android.support.v7.widget.CardView>
 
