@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -21,24 +22,25 @@ public class Circle extends View {
     private static final int START_ANGLE_POINT = -90;
 
     private final Paint paint;
-    private final RectF rect;
+    private RectF rect;
+    private final int strokeWidth;
 
     private float angle;
 
     public Circle(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        final int strokeWidth = 40;
+        strokeWidth = 40;
 
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(strokeWidth);
         //Circle color
-        paint.setColor(Color.RED);
+        paint.setColor(Color.GRAY);
 
         //size 200x200 example
-        rect = new RectF(strokeWidth, strokeWidth, 300  + strokeWidth, 300 + strokeWidth);
+        Log.d("Test", "width height:" + getWidth() + getHeight());
 
         //Initial Angle (optional, it can be zero)
         angle = 0;
@@ -47,6 +49,7 @@ public class Circle extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        rect = new RectF(strokeWidth, strokeWidth, getWidth() - strokeWidth, getHeight() - strokeWidth);
         canvas.drawArc(rect, START_ANGLE_POINT, angle, false, paint);
     }
 

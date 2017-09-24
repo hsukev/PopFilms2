@@ -1,9 +1,13 @@
 package com.example.jerye.popfilms2;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +26,7 @@ import com.example.jerye.popfilms2.remote.MoviesService;
 import com.example.jerye.popfilms2.util.Circle;
 import com.example.jerye.popfilms2.util.CircleAngleAnimation;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +45,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class DetailedActivity extends AppCompatActivity implements CastAdapter.CastAdapterListener,
-        ReviewsAdapter.ReviewsAdapterListener {
+        ReviewsAdapter.ReviewsAdapterListener,
+        Target {
 
     @BindView(R.id.detailed_background)
     ImageView background;
@@ -60,6 +66,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     GridRecyclerView cast;
     @BindView(R.id.detailed_reviews)
     RecyclerView reviews;
+    @BindView(R.id.detailed_collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     Result movie;
     MoviesService castService;
@@ -92,7 +100,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     }
 
     public void populateViews() {
-        Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(background);
+        Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(this);
         title.setText(movie.getOriginalTitle());
         releaseDate.setText(movie.getReleaseDate());
         summary.setText(movie.getOverview());
@@ -114,6 +122,10 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         circleAngleAnimation.setDuration(3000);
         circleAngleAnimation.setInterpolator(new FastOutSlowInInterpolator());
         rating.startAnimation(circleAngleAnimation);
+    }
+
+    public void updateContentScrimColor() {
+
     }
 
     public void setUpNetwork() {
@@ -191,5 +203,24 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                 return Observable.fromIterable(review.getResults());
             }
         };
+    }
+
+    //For Picasso bitmap loading muted color scrim
+    @Override
+    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+        Palette.Builder paletteBuilder = Palette.from(bitmap);
+        int mutedColor = paletteBuilder.generate().getMutedColor(0xFF333333);
+        collapsingToolbarLayout.setContentScrimColor(mutedColor);
+        background.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void onBitmapFailed(Drawable errorDrawable) {
+
+    }
+
+    @Override
+    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
     }
 }
