@@ -124,10 +124,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         rating.startAnimation(circleAngleAnimation);
     }
 
-    public void updateContentScrimColor() {
-
-    }
-
     public void setUpNetwork() {
 
         Retrofit retrofitClient = new Retrofit.Builder()
