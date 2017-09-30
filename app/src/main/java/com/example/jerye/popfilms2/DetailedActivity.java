@@ -207,6 +207,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         Palette.Builder paletteBuilder = Palette.from(bitmap);
         int mutedColor = paletteBuilder.generate().getMutedColor(0xFF333333);
         collapsingToolbarLayout.setContentScrimColor(mutedColor);
+        title.setTextColor(colorDistinction(mutedColor));
         background.setImageBitmap(bitmap);
     }
 
@@ -218,5 +219,9 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     @Override
     public void onPrepareLoad(Drawable placeHolderDrawable) {
 
+    }
+
+    public int colorDistinction(int muted){
+        return muted;
     }
 }
