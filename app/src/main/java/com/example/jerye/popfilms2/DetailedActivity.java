@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -50,8 +51,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
     @BindView(R.id.detailed_background)
     ImageView background;
-    @BindView(R.id.detailed_title)
-    TextView title;
     @BindView(R.id.detailed_release_date)
     TextView releaseDate;
     @BindView(R.id.detailed_rating)
@@ -101,7 +100,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
     public void populateViews() {
         Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(this);
-        title.setText(movie.getOriginalTitle());
+        collapsingToolbarLayout.setTitle(movie.getOriginalTitle());
         releaseDate.setText(movie.getReleaseDate());
         summary.setText(movie.getOverview());
         genreList.setText(GenreScheme.getGenre(movie.getGenreIds()));
@@ -205,9 +204,12 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     @Override
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
         Palette.Builder paletteBuilder = Palette.from(bitmap);
-        int mutedColor = paletteBuilder.generate().getMutedColor(0xFF333333);
+        int mutedColor = paletteBuilder.generate().getDarkVibrantColor(0xFF333333);
         collapsingToolbarLayout.setContentScrimColor(mutedColor);
-        title.setTextColor(colorDistinction(mutedColor));
+        collapsingToolbarLayout.setStatusBarScrimColor(mutedColor);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance();
+        collapsingToolbarLayout.setExpandedTitleColor();
+        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this,R.color.light_text));
         background.setImageBitmap(bitmap);
     }
 

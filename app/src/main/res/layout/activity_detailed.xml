@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    app:theme="@style/AppTheme.TranslucentStatusBar"
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
@@ -25,22 +26,28 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 app:layout_collapseMode="parallax">
 
-                <TextView
-                    android:id="@+id/detailed_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/titlebar_fade"
-                    android:gravity="center_vertical"
-                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                    tools:text="Finding Nemo" />
+                <!--<TextView-->
+                <!--android:paddingStart="16dp"-->
+                <!--android:paddingEnd="16dp"-->
+                <!--android:id="@+id/detailed_title"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@drawable/titlebar_fade"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"-->
+                <!--tools:text="Finding Nemo" />-->
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
