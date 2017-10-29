@@ -1,7 +1,6 @@
 package com.example.jerye.popfilms2.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.jerye.popfilms2.R;
-import com.example.jerye.popfilms2.ReviewDialog;
 import com.example.jerye.popfilms2.data.model.review.Result;
 import com.squareup.picasso.Callback;
 
@@ -55,8 +53,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
 
     public void addReviews(Result result) {
         reviewsList.add(result);
-
-
     }
 
     @Override
@@ -83,20 +79,20 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
 
         ReviewsViewHolder(View view) {
             super(view);
+            view.setOnClickListener(this);
             ButterKnife.bind(this, view);
         }
 
         @Override
         public void onClick(View view) {
-            Intent reviewIntent = new Intent(mContext, ReviewDialog.class);
-            Result clickedReview = reviewsList.get(getAdapterPosition());
-            reviewIntent.putExtra(INTENT_FULL_REVIEW, clickedReview);
-            mContext.startActivity(reviewIntent);
+            reviewsAdapterListener.onClick(reviewsList.get(getAdapterPosition()));
+
         }
     }
 
     public interface ReviewsAdapterListener {
         void onComplete();
+        void onClick(Result fullReview);
     }
 
 }

@@ -2,7 +2,6 @@ package com.example.jerye.popfilms2;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -18,25 +17,30 @@ import com.example.jerye.popfilms2.data.model.review.Result;
 
 public class ReviewDialog extends DialogFragment {
 
-    private Result result;
+    public ReviewDialog() {
+
+    }
+
+    public static ReviewDialog newInstance(Result fullReview) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ReviewsAdapter.INTENT_FULL_REVIEW, fullReview);
+        ReviewDialog dialog = new ReviewDialog();
+        dialog.setArguments(bundle);
+        return dialog;
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Result result = this.getArguments().getParcelable(ReviewsAdapter.INTENT_FULL_REVIEW);
+        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.full_review_dialog, null);
 
-        Intent intent = getActivity().getIntent();
-        if(intent!=null){
-            Bundle bundle = intent.getExtras();
-            result = bundle.getParcelable(ReviewsAdapter.INTENT_FULL_REVIEW);
-        }
-
-        TextView author = (TextView) getActivity().findViewById(R.id.full_review_author);
-        TextView content = (TextView) getActivity().findViewById(R.id.full_review_content);
+        TextView author = dialogView.findViewById(R.id.full_review_author);
+        TextView content = dialogView.findViewById(R.id.full_review_content);
 
         author.setText(result.getAuthor());
         content.setText(result.getContent());
 
-        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.full_review_dialog, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(dialogView);

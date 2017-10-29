@@ -81,6 +81,14 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         ButterKnife.bind(this);
     }
 
+
+    @Override
+    public void onClick(com.example.jerye.popfilms2.data.model.review.Result fullReview) {
+        Log.d("ReviewAdapter", "clicked");
+        ReviewDialog reviewDialog = ReviewDialog.newInstance(fullReview);
+        reviewDialog.show(getSupportFragmentManager(), "full review");
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
