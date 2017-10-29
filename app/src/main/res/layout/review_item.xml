@@ -17,7 +17,6 @@
         android:layout_margin="8dp"
         >
 
-
         <TextView
             android:id="@+id/reviews_content"
             android:layout_width="match_parent"

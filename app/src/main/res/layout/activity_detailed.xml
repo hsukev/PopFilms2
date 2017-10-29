@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    app:theme="@style/AppTheme.TranslucentStatusBar"
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
@@ -25,8 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
             <android.support.v7.widget.Toolbar
@@ -34,23 +33,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="top"
-                android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:paddingStart="8dp"
                 app:layout_collapseMode="parallax">
 
-                <!--<TextView-->
-                <!--android:paddingStart="16dp"-->
-                <!--android:paddingEnd="16dp"-->
-                <!--android:id="@+id/detailed_title"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:background="@drawable/titlebar_fade"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"-->
-                <!--tools:text="Finding Nemo" />-->
             </android.support.v7.widget.Toolbar>
+
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax" />
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -124,13 +126,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layoutAnimation="@anim/cast_animation"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:background="@android:color/darker_gray"
             tools:layout_height="40dp" />
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/detailed_reviews"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:nestedScrollingEnabled="false"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="moreReviews"/>
+
 
 
     </LinearLayout>

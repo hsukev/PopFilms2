@@ -6,7 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Result implements Parcelable {
+public class Result implements Parcelable
+{
 
     @SerializedName("id")
     @Expose
@@ -27,19 +28,25 @@ public class Result implements Parcelable {
                 "unchecked"
         })
         public Result createFromParcel(Parcel in) {
-            Result instance = new Result();
-            instance.id = ((String) in.readValue((String.class.getClassLoader())));
-            instance.author = ((String) in.readValue((String.class.getClassLoader())));
-            instance.content = ((String) in.readValue((String.class.getClassLoader())));
-            instance.url = ((String) in.readValue((String.class.getClassLoader())));
-            return instance;
+            return new Result(in);
         }
 
         public Result[] newArray(int size) {
             return (new Result[size]);
         }
 
-    };
+    }
+            ;
+
+    protected Result(Parcel in) {
+        this.id = ((String) in.readValue((String.class.getClassLoader())));
+        this.author = ((String) in.readValue((String.class.getClassLoader())));
+        this.content = ((String) in.readValue((String.class.getClassLoader())));
+        this.url = ((String) in.readValue((String.class.getClassLoader())));
+    }
+
+    public Result() {
+    }
 
     public String getId() {
         return id;

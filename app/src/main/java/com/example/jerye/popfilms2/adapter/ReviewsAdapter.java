@@ -1,6 +1,7 @@
 package com.example.jerye.popfilms2.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.jerye.popfilms2.R;
+import com.example.jerye.popfilms2.ReviewDialog;
 import com.example.jerye.popfilms2.data.model.review.Result;
 import com.squareup.picasso.Callback;
 
@@ -21,11 +23,12 @@ import butterknife.ButterKnife;
  * Created by jerye on 9/16/2017.
  */
 
-public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> implements Callback{
+public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> implements Callback {
     private Context mContext;
     private List<Result> reviewsList = new ArrayList<>();
     private ReviewsAdapterListener reviewsAdapterListener;
     private int count = 0;
+    public static final String INTENT_FULL_REVIEW = "full_review";
 
     public ReviewsAdapter(Context context, ReviewsAdapterListener reviewsAdapterListener) {
         mContext = context;
@@ -59,10 +62,10 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
     @Override
     public void onSuccess() {
         count++;
-        if(count == 10){
+        if (count == 10) {
             notifyDataSetChanged();
             reviewsAdapterListener.onComplete();
-        }else if(count > 10){
+        } else if (count > 10) {
             notifyDataSetChanged();
         }
     }
@@ -72,7 +75,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
 
     }
 
-    public class ReviewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ReviewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.reviews_author)
         TextView reviewsAuthor;
         @BindView(R.id.reviews_content)
@@ -80,16 +83,19 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
 
         ReviewsViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
 
         @Override
         public void onClick(View view) {
-
+            Intent reviewIntent = new Intent(mContext, ReviewDialog.class);
+            Result clickedReview = reviewsList.get(getAdapterPosition());
+            reviewIntent.putExtra(INTENT_FULL_REVIEW, clickedReview);
+            mContext.startActivity(reviewIntent);
         }
     }
 
-    public interface ReviewsAdapterListener{
+    public interface ReviewsAdapterListener {
         void onComplete();
     }
 

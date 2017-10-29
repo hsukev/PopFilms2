@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="4dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="4dp">
 
+    <TextView
+        android:id="@+id/cast_name"
+        tools:text="Johnny Depp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/cast_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:civ_border_width="0dp"/>
+        app:civ_border_width="0dp" />
 
     <TextView
-        android:id="@+id/cast_name"
+        android:id="@+id/cast_character"
+        tools:text="Jack Sparrow"
         android:layout_width="wrap_content"
-        android:gravity="center"
         android:layout_height="wrap_content" />
+
 </LinearLayout>

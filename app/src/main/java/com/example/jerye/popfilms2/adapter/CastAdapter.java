@@ -23,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by jerye on 9/16/2017.
  */
 
-public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> implements Callback{
+public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> implements Callback {
     private Context mContext;
     private List<Cast> castList = new ArrayList<>();
     private CastAdapterListener castAdapterListener;
@@ -50,7 +50,9 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     public void onBindViewHolder(CastViewHolder holder, int position) {
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + castList.get(position).getProfilePath()).into(holder.castProfile);
         String name = castList.get(position).getName();
-        holder.castName.setText(name.replace(' ','\n'));
+        holder.castName.setText(name.replace(' ', '\n'));
+        String character = castList.get(position).getCharacter();
+        holder.castCharacter.setText(character.replace(' ', '\n'));
     }
 
     public void addCast(Cast cast) {
@@ -62,10 +64,10 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     @Override
     public void onSuccess() {
         count++;
-        if(count == 10){
+        if (count == 10) {
             notifyDataSetChanged();
             castAdapterListener.onComplete();
-        }else if(count > 10){
+        } else if (count > 10) {
             notifyDataSetChanged();
         }
     }
@@ -75,15 +77,17 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
     }
 
-    public class CastViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class CastViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.cast_name)
         TextView castName;
         @BindView(R.id.cast_profile)
         CircleImageView castProfile;
+        @BindView(R.id.cast_character)
+        TextView castCharacter;
 
         CastViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
 
         @Override
@@ -92,7 +96,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
         }
     }
 
-    public interface CastAdapterListener{
+    public interface CastAdapterListener {
         void onComplete();
     }
 

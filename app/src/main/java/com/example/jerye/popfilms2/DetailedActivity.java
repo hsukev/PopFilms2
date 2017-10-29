@@ -12,6 +12,7 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -143,9 +144,11 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                 .flatMap(credits2Cast())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableObserver<Cast>() {
+                    int limit = 15;
                     @Override
                     public void onNext(@NonNull Cast cast) {
-                        castAdapter.addCast(cast);
+                        limit--;
+                        if(limit>0) castAdapter.addCast(cast);
                     }
 
                     @Override
@@ -159,6 +162,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     }
                 });
         Observable<Review> reviewsResult = castService.getMovieReview(movie.getId(), BuildConfig.TMDB_API_KEY, 1);
+        Log.d("Review", reviewsResult.toString());
         reviewsResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(review2Result())
@@ -167,16 +171,17 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     @Override
                     public void onNext(@NonNull com.example.jerye.popfilms2.data.model.review.Result result) {
                         reviewsAdapter.addReviews(result);
+                        Log.d("Review", "added");
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-
+                        Log.d("Review", "Error: "+e);
                     }
 
                     @Override
                     public void onComplete() {
-
+                        Log.d("Review", "completed");
                     }
                 });
 
@@ -207,8 +212,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         int mutedColor = paletteBuilder.generate().getDarkVibrantColor(0xFF333333);
         collapsingToolbarLayout.setContentScrimColor(mutedColor);
         collapsingToolbarLayout.setStatusBarScrimColor(mutedColor);
-        collapsingToolbarLayout.setExpandedTitleTextAppearance();
-        collapsingToolbarLayout.setExpandedTitleColor();
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);
         collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this,R.color.light_text));
         background.setImageBitmap(bitmap);
     }
@@ -226,4 +230,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     public int colorDistinction(int muted){
         return muted;
     }
+
+
 }
