@@ -44,27 +44,29 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-        <android.support.v4.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
+
 
                 <TextView
                     android:id="@+id/detailed_release_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
                     android:gravity="center"
                     tools:text="JULY \n 01 17" />
 
@@ -74,14 +76,13 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/detailed_release_date"
                     android:gravity="center"
+                    android:padding="8dp"
                     tools:text="Comedy\nAction\nDrama" />
-
 
                 <FrameLayout
                     android:id="@+id/detailed_rating_container"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_alignParentTop="true"
                     android:layout_toRightOf="@id/detailed_release_date">
 
                     <com.example.jerye.popfilms2.util.Circle
@@ -91,54 +92,53 @@
 
                     <TextView
                         android:id="@+id/detailed_rating_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:gravity="center"
                         android:textSize="22dp"
                         android:textStyle="bold"
                         tools:text="9.3" />
                 </FrameLayout>
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/detailed_summary_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/detailed_rating_container"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp">
-
-                    <TextView
-                        android:id="@+id/detailed_summary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        tools:text="Summary \n For  \n Random \n Movie " />
-                </android.support.v7.widget.CardView>
-
-
-                <com.example.jerye.popfilms2.GridRecyclerView
-                    android:id="@+id/detailed_cast"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/detailed_summary_container"
-                    android:layoutAnimation="@anim/cast_animation"
-                    android:nestedScrollingEnabled="false"
-                    tools:background="@android:color/darker_gray"
-                    tools:layout_height="40dp" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/detailed_reviews"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/detailed_cast"
-                    android:layoutAnimation="@anim/cast_animation"
-                    android:nestedScrollingEnabled="false"
-                    tools:layout_height="40dp" />
 
             </RelativeLayout>
 
-        </android.support.v4.widget.NestedScrollView>
 
-    </LinearLayout>
+            <android.support.v7.widget.CardView
+                android:id="@+id/detailed_summary_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="16dp">
+
+                <TextView
+                    android:id="@+id/detailed_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    tools:text="Summary \n For  \n Random \n Movie " />
+            </android.support.v7.widget.CardView>
+
+
+            <com.example.jerye.popfilms2.GridRecyclerView
+                android:id="@+id/detailed_cast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutAnimation="@anim/cast_animation"
+                android:nestedScrollingEnabled="false"
+                tools:background="@android:color/darker_gray"
+                tools:layout_height="40dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/detailed_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutAnimation="@anim/cast_animation"
+                android:nestedScrollingEnabled="false"
+                tools:layout_height="40dp" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
 </android.support.design.widget.CoordinatorLayout>

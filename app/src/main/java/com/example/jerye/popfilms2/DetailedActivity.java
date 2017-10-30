@@ -30,6 +30,10 @@ import com.example.jerye.popfilms2.util.CircleAngleAnimation;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -113,7 +117,20 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     public void populateViews() {
         Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(this);
         collapsingToolbarLayout.setTitle(movie.getOriginalTitle());
-        releaseDate.setText(movie.getReleaseDate());
+
+        // Converts date to proper format
+        SimpleDateFormat readFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat writeFormat = new SimpleDateFormat("MMMdd\nyyyy");
+        Date date;
+        StringBuilder sb = new StringBuilder();
+        try{
+            date = readFormat.parse(movie.getReleaseDate());
+            sb.append(writeFormat.format(date));
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+
+        releaseDate.setText(sb.toString());
         summary.setText(movie.getOverview());
         genreList.setText(GenreScheme.getGenre(movie.getGenreIds()));
         ratingNumber.setText(String.valueOf(movie.getVoteAverage()));

@@ -36,7 +36,7 @@ public class GenreScheme {
 
         StringBuilder builder = new StringBuilder();
         for(int i : list){
-            builder.append(genre.get(i) + ", ");
+            builder.append(genre.get(i)).append("\n");
         }
         builder.substring(0,builder.length()-2);
 
