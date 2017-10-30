@@ -72,6 +72,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     Result movie;
     MoviesService castService;
     CastAdapter castAdapter;
+    CastAdapter castAdapter2;
+
     ReviewsAdapter reviewsAdapter;
 
     @Override
@@ -107,6 +109,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         cast.scheduleLayoutAnimation();
     }
 
+
     public void populateViews() {
         Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(this);
         collapsingToolbarLayout.setTitle(movie.getOriginalTitle());
@@ -141,11 +144,11 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                 .build();
 
         castService = retrofitClient.create(MoviesService.class);
-        fetchCastData();
+        fetchData();
 
     }
 
-    public void fetchCastData() {
+    public void fetchData() {
         Observable<Credits> creditsResult = castService.getMovieCredit(movie.getId(), BuildConfig.TMDB_API_KEY);
         creditsResult
                 .subscribeOn(Schedulers.io())
@@ -153,10 +156,11 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableObserver<Cast>() {
                     int limit = 15;
+
                     @Override
                     public void onNext(@NonNull Cast cast) {
                         limit--;
-                        if(limit>0) castAdapter.addCast(cast);
+                        if (limit > 0) castAdapter.addCast(cast);
                     }
 
                     @Override
@@ -184,7 +188,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Log.d("Review", "Error: "+e);
+                        Log.d("Review", "Error: " + e);
                     }
 
                     @Override
@@ -221,7 +225,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         collapsingToolbarLayout.setContentScrimColor(mutedColor);
         collapsingToolbarLayout.setStatusBarScrimColor(mutedColor);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);
-        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this,R.color.light_text));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.light_text));
         background.setImageBitmap(bitmap);
     }
 
@@ -235,7 +239,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
     }
 
-    public int colorDistinction(int muted){
+    public int colorDistinction(int muted) {
         return muted;
     }
 

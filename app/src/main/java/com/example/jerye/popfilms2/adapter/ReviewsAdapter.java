@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.example.jerye.popfilms2.R;
 import com.example.jerye.popfilms2.data.model.review.Result;
-import com.squareup.picasso.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by jerye on 9/16/2017.
  */
 
-public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> implements Callback {
+public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> {
     private Context mContext;
     private List<Result> reviewsList = new ArrayList<>();
     private ReviewsAdapterListener reviewsAdapterListener;
@@ -53,23 +52,9 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
 
     public void addReviews(Result result) {
         reviewsList.add(result);
+        notifyDataSetChanged();
     }
 
-    @Override
-    public void onSuccess() {
-        count++;
-        if (count == 10) {
-            notifyDataSetChanged();
-            reviewsAdapterListener.onComplete();
-        } else if (count > 10) {
-            notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onError() {
-
-    }
 
     public class ReviewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.reviews_author)
@@ -91,7 +76,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
     }
 
     public interface ReviewsAdapterListener {
-        void onComplete();
         void onClick(Result fullReview);
     }
 

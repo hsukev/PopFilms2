@@ -2,6 +2,7 @@ package com.example.jerye.popfilms2.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,8 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     @Override
     public void onSuccess() {
         count++;
+        Log.d("CastAdapter", "Succeed:" + count);
+
         if (count == 10) {
             notifyDataSetChanged();
             castAdapterListener.onComplete();
