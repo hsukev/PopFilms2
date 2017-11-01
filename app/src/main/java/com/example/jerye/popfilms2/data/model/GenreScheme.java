@@ -36,10 +36,11 @@ public class GenreScheme {
         genre.append(37,"Western");
 
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < list.size(); i++){
-            builder.append(genre.get(i));
-            if(i!=list.size()-1) builder.append("\n");
+        int size = list.size();
+        for(int i = 0; i < size-1; i++){
+            builder.append(genre.get(list.get(i))).append("\n");
         }
+        builder.append(genre.get(list.get(size-1)));
 
         Log.d("GenereScheme", builder.toString());
 

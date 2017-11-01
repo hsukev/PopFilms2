@@ -56,12 +56,12 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/subtitle_overview"
                 style="@style/AppTheme.Subtitles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="overview"
-android:id="@+id/subtitle_overview"
                 android:textAllCaps="true" />
 
             <RelativeLayout
@@ -85,7 +85,7 @@ android:id="@+id/subtitle_overview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/detailed_release_date"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:padding="8dp"
                     tools:text="Comedy\nAction\nDrama" />
 
@@ -131,12 +131,12 @@ android:id="@+id/subtitle_overview"
             </android.support.v7.widget.CardView>
 
             <TextView
+                android:id="@+id/subtitle_cast"
                 style="@style/AppTheme.Subtitles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="cast"
-                android:id="@+id/subtitle_cast"
                 android:textAllCaps="true" />
 
             <com.example.jerye.popfilms2.GridRecyclerView
@@ -149,11 +149,11 @@ android:id="@+id/subtitle_overview"
                 tools:layout_height="40dp" />
 
             <TextView
+                android:id="@+id/subtitle_review"
                 style="@style/AppTheme.Subtitles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:id="@+id/subtitle_review"
                 android:text="reviews"
                 android:textAllCaps="true" />
 
