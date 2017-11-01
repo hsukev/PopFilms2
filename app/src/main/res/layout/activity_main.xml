@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:context="com.example.jerye.popfilms2.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:fitsSystemWindows="true">
+        android:layout_height="?actionBarSize">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"

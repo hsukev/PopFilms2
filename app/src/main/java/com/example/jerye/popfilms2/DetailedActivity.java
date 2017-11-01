@@ -72,6 +72,12 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     RecyclerView reviews;
     @BindView(R.id.detailed_collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.subtitle_overview)
+    TextView subtitleOverview;
+    @BindView(R.id.subtitle_cast)
+    TextView subtitleCast;
+    @BindView(R.id.subtitle_review)
+    TextView subtitleReview;
 
     Result movie;
     MoviesService castService;
@@ -241,6 +247,9 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         int mutedColor = paletteBuilder.generate().getDarkVibrantColor(0xFF333333);
         collapsingToolbarLayout.setContentScrimColor(mutedColor);
         collapsingToolbarLayout.setStatusBarScrimColor(mutedColor);
+        subtitleCast.setBackgroundColor(mutedColor);
+        subtitleOverview.setBackgroundColor(mutedColor);
+        subtitleReview.setBackgroundColor(mutedColor);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);
         collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.light_text));
         background.setImageBitmap(bitmap);

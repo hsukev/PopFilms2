@@ -1,5 +1,6 @@
 package com.example.jerye.popfilms2.data.model;
 
+import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.List;
@@ -35,10 +36,12 @@ public class GenreScheme {
         genre.append(37,"Western");
 
         StringBuilder builder = new StringBuilder();
-        for(int i : list){
-            builder.append(genre.get(i)).append("\n");
+        for(int i = 0; i < list.size(); i++){
+            builder.append(genre.get(i));
+            if(i!=list.size()-1) builder.append("\n");
         }
-        builder.substring(0,builder.length()-2);
+
+        Log.d("GenereScheme", builder.toString());
 
         return builder.toString();
     }
