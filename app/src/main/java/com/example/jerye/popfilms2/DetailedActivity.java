@@ -13,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.animation.GridLayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -142,7 +143,10 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         ratingNumber.setText(String.valueOf(movie.getVoteAverage()));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL, false);
+        GridLayoutAnimationController controller = (GridLayoutAnimationController) cast.getLayoutAnimation();
+        controller.setDirection(R.anim.cast_animation);
         cast.setLayoutManager(gridLayoutManager);
+        cast.setLayoutAnimation(controller);
         castAdapter = new CastAdapter(this, this);
         cast.setAdapter(castAdapter);
 
