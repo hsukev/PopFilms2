@@ -20,11 +20,13 @@ import android.widget.TextView;
 import com.example.jerye.popfilms2.adapter.CastAdapter;
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
 import com.example.jerye.popfilms2.adapter.ReviewsAdapter;
+import com.example.jerye.popfilms2.adapter.TrailerAdapter;
 import com.example.jerye.popfilms2.data.model.GenreScheme;
 import com.example.jerye.popfilms2.data.model.credits.Cast;
 import com.example.jerye.popfilms2.data.model.credits.Credits;
 import com.example.jerye.popfilms2.data.model.movies.Result;
 import com.example.jerye.popfilms2.data.model.review.Review;
+import com.example.jerye.popfilms2.data.model.trailer.Trailer;
 import com.example.jerye.popfilms2.remote.MoviesService;
 import com.example.jerye.popfilms2.util.Circle;
 import com.example.jerye.popfilms2.util.CircleAngleAnimation;
@@ -69,6 +71,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     TextView genreList;
     @BindView(R.id.detailed_cast)
     GridRecyclerView cast;
+    @BindView(R.id.detailed_trailer)
+    RecyclerView trailer;
     @BindView(R.id.detailed_reviews)
     RecyclerView reviews;
     @BindView(R.id.detailed_collapsing_toolbar)
@@ -83,7 +87,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     Result movie;
     MoviesService castService;
     CastAdapter castAdapter;
-    CastAdapter castAdapter2;
+    TrailerAdapter trailerAdapter;
 
     ReviewsAdapter reviewsAdapter;
 
@@ -130,10 +134,10 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         SimpleDateFormat writeFormat = new SimpleDateFormat("MMMdd\nyyyy");
         Date date;
         StringBuilder sb = new StringBuilder();
-        try{
+        try {
             date = readFormat.parse(movie.getReleaseDate());
             sb.append(writeFormat.format(date));
-        }catch(ParseException e){
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
@@ -149,6 +153,11 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         cast.setLayoutAnimation(controller);
         castAdapter = new CastAdapter(this, this);
         cast.setAdapter(castAdapter);
+
+        LinearLayoutManager linearLayoutManagerTrailer = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        trailer.setLayoutManager(linearLayoutManagerTrailer);
+        trailerAdapter = new TrailerAdapter(this);
+        trailer.setAdapter(trailerAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         reviews.setLayoutManager(linearLayoutManager);
@@ -224,6 +233,29 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     }
                 });
 
+        Observable<Trailer> trailerResult = castService.getMovieTrailer(movie.getId(), BuildConfig.TMDB_API_KEY);
+        trailerResult
+                .subscribeOn(Schedulers.io())
+                .flatMap(trailer2Result())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableObserver<com.example.jerye.popfilms2.data.model.trailer.Result>() {
+                    @Override
+                    public void onNext(@NonNull com.example.jerye.popfilms2.data.model.trailer.Result result) {
+                        trailerAdapter.addTrailer(result);
+                        Log.d("Trailer", "added");
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.d("Trailer", "Error: " + e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("Trailer", "completed");
+                    }
+                });
+
     }
 
     public Function<Credits, Observable<Cast>> credits2Cast() {
@@ -240,6 +272,15 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
             @Override
             public Observable<com.example.jerye.popfilms2.data.model.review.Result> apply(@NonNull Review review) throws Exception {
                 return Observable.fromIterable(review.getResults());
+            }
+        };
+    }
+
+    public Function<Trailer, Observable<com.example.jerye.popfilms2.data.model.trailer.Result>> trailer2Result() {
+        return new Function<Trailer, Observable<com.example.jerye.popfilms2.data.model.trailer.Result>>() {
+            @Override
+            public Observable<com.example.jerye.popfilms2.data.model.trailer.Result> apply(@NonNull Trailer trailer) throws Exception {
+                return Observable.fromIterable(trailer.getResults());
             }
         };
     }

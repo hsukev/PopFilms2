@@ -13,6 +13,12 @@ import android.view.WindowManager;
 public class Utils {
     private static int SCREEN_HEIGHT = 0;
     private static int SCREEN_WIDTH = 0;
+    private static String youTubeWebUrl = "https://www.youtube.com/watch?v=%s";
+    private static String youTubeAppUrl = "vnd.youtube:%s";
+    private static String youTubeVideoThumbnail = "http://img.youtube.com/vi/%s/hqdefault.jpg";
+
+
+
 
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
@@ -38,5 +44,15 @@ public class Utils {
             SCREEN_WIDTH = size.y;
         }
         return SCREEN_WIDTH;
+    }
+
+    public static String buildYouTubeWebUri(String videoKey){
+        return String.format(youTubeWebUrl, videoKey);
+    }
+    public static String buildYouTubeAppUri(String videoKey){
+        return String.format(youTubeAppUrl, videoKey);
+    }
+    public static String buildThumbnailUri(String thumbnailKey) {
+        return String.format(youTubeVideoThumbnail, thumbnailKey);
     }
 }
