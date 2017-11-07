@@ -17,13 +17,11 @@ import retrofit2.http.Query;
 public interface MoviesService {
 
 
-    @GET("popular")
-    Observable<MoviesResult> getPopularMovies(@Query("api_key") String apiKey,
-                                              @Query("page") int page);
-
-    @GET("top_rated")
-    Observable<MoviesResult> getTopRatedMovies(@Query("api_key") String apiKey,
-                                               @Query("page") int page);
+    @GET("{type}")
+    Observable<MoviesResult> getPopularMovies(
+            @Path("type") String type,
+            @Query("api_key") String apiKey,
+            @Query("page") int page);
 
     @GET("{id}/credits")
     Observable<Credits> getMovieCredit(@Path("id") int movieId,

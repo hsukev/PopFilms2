@@ -24,7 +24,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
     private Context mContext;
     private List<Result> reviewsList = new ArrayList<>();
     private ReviewsAdapterListener reviewsAdapterListener;
-    private int count = 0;
     public static final String INTENT_FULL_REVIEW = "full_review";
 
     public ReviewsAdapter(Context context, ReviewsAdapterListener reviewsAdapterListener) {
