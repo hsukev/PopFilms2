@@ -34,11 +34,8 @@ public class MainActivity extends BaseActivity{
 
         startUpAnimation();
 
-        tabs.addTab(tabs.newTab().setText("Popular"));
-        tabs.addTab(tabs.newTab().setText("Top Rated"));
-        tabs.addTab(tabs.newTab().setText("Coming Soon"));
-
         adapter = new SimpleFragmentStatePagerAdapter(getSupportFragmentManager());
+
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
         tabs.setupWithViewPager(pager);
@@ -81,6 +78,18 @@ public class MainActivity extends BaseActivity{
         }
 
         @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position){
+                case 0:
+                    return "popular";
+                case 1:
+                    return "top rated";
+                default:
+                    return "upcoming";
+            }
+        }
+
+        @Override
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
@@ -88,7 +97,7 @@ public class MainActivity extends BaseActivity{
                 case 1:
                     return MoviesFragment.newInstance("top_rated");
                 default:
-                    return MoviesFragment.newInstance("popular");
+                    return MoviesFragment.newInstance("upcoming");
             }
         }
 
