@@ -17,7 +17,10 @@ import com.example.jerye.popfilms2.data.model.movies.Result;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,12 +35,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     private MovieAdapterListener movieAdapterListener;
     private List<Result> moviesList = new ArrayList<>();
     private int count = 0;
+    public String queryType;
     public static final String BUNDLE_KEY = "bundle key";
     public static final String INTENT_KEY = "intent key";
 
 
-    public MoviesAdapter(Context context, MovieAdapterListener movieAdapterListener) {
+    public MoviesAdapter(Context context, String queryType,MovieAdapterListener movieAdapterListener) {
         mContext = context;
+        this.queryType = queryType;
         this.movieAdapterListener = movieAdapterListener;
     }
 
@@ -45,8 +50,33 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
 //        http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
         Log.d("test", "bind view");
+        holder.gridTitle.setText(moviesList.get(position).getTitle());
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + moviesList.get(position).getPosterPath()).into(holder.gridPoster);
 
+        switch(queryType){
+            case "popular":
+                holder.gridAttribute.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_thumb_up_black_24dp,0,0,0);
+                holder.gridAttribute.setText(String.valueOf(Math.round(moviesList.get(position).getPopularity())));
+                break;
+            case "top_rated":
+                holder.gridAttribute.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_star_black_24dp,0,0,0);
+                holder.gridAttribute.setText(String.valueOf(moviesList.get(position).getVoteAverage()));
+                break;
+            case "upcoming":
+                SimpleDateFormat readFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat writeFormat = new SimpleDateFormat("MMMMM dd yyyy");
+                Date date;
+                StringBuilder sb = new StringBuilder();
+                try {
+                    date = readFormat.parse(moviesList.get(position).getReleaseDate());
+                    sb.append(writeFormat.format(date));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                holder.gridAttribute.setText(sb.toString());
+
+                break;
+        }
     }
 
     @Override
@@ -64,8 +94,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     public class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.grid_poster)
         ImageView gridPoster;
-        @BindView(R.id.grid_date)
-        TextView gridDate;
+        @BindView(R.id.grid_title)
+        TextView gridTitle;
+        @BindView(R.id.grid_attribute)
+        TextView gridAttribute;
 
         public MoviesViewHolder(View view) {
             super(view);

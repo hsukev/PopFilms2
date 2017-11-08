@@ -80,7 +80,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
     private void setUpGrid() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
 
-        moviesAdapter = new MoviesAdapter(getContext(), this);
+        moviesAdapter = new MoviesAdapter(getContext(), queryType,this);
 
         rvMain.setLayoutManager(gridLayoutManager);
         rvMain.addOnScrollListener(new MovieScrollListener(gridLayoutManager, this));

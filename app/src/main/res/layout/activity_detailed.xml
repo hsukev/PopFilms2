@@ -155,12 +155,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="trailers"
+                tools:textColor="@android:color/background_dark"
+
                 android:textAllCaps="true" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/detailed_trailer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="200dp" />
 
             <TextView
                 android:id="@+id/subtitle_review"
@@ -169,6 +171,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="reviews"
+                tools:textColor="@android:color/background_dark"
                 android:textAllCaps="true" />
 
             <android.support.v7.widget.RecyclerView
