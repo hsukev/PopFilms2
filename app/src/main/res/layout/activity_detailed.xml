@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,8 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:collapsedTitleGravity="center_horizontal"
+            app:expandedTitleGravity="center_horizontal|bottom"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
 
             <ImageView
                 android:id="@+id/detailed_background"
@@ -55,124 +55,144 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/subtitle_overview"
                 style="@style/AppTheme.Subtitles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="overview"
-                android:textAllCaps="true" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/detailed_release_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    tools:text="JULY \n 01 17" />
-
-                <TextView
-                    android:id="@+id/detailed_genre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/detailed_release_date"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    tools:text="Comedy\nAction\nDrama" />
-
-                <FrameLayout
-                    android:id="@+id/detailed_rating_container"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/detailed_release_date">
-
-                    <com.example.jerye.popfilms2.util.Circle
-                        android:id="@+id/detailed_rating"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp" />
-
-                    <TextView
-                        android:id="@+id/detailed_rating_number"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:gravity="center"
-                        android:textSize="22dp"
-                        android:textStyle="bold"
-                        tools:text="9.3" />
-                </FrameLayout>
-
-
-            </RelativeLayout>
-
+                android:text="overview" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/detailed_summary_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="16dp">
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                app:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/detailed_genre"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:minHeight="100dp"
+                        android:padding="8dp"
+                        tools:text="Comedy\nAction\nDrama" />
+
+                    <TextView
+                        android:id="@+id/detailed_release_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:minHeight="100dp"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textStyle="bold"
+                        tools:text="JULY \n 01 17" />
+
+
+                    <FrameLayout
+                        android:id="@+id/detailed_rating_container"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="2">
+
+                        <com.example.jerye.popfilms2.util.Circle
+                            android:id="@+id/detailed_rating"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:id="@+id/detailed_rating_number"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="22dp"
+                            android:textStyle="bold"
+                            tools:text="9.3" />
+                    </FrameLayout>
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp">
 
                 <TextView
                     android:id="@+id/detailed_summary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:padding="16dp"
                     tools:text="Summary \n For  \n Random \n Movie " />
             </android.support.v7.widget.CardView>
+
 
             <TextView
                 android:id="@+id/subtitle_cast"
                 style="@style/AppTheme.Subtitles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:text="cast"
                 android:textAllCaps="true" />
+
+            <include layout="@layout/divider" />
 
             <com.example.jerye.popfilms2.GridRecyclerView
                 android:id="@+id/detailed_cast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/background_light"
                 android:layoutAnimation="@anim/cast_animation"
                 android:nestedScrollingEnabled="false"
-                tools:background="@android:color/darker_gray"
                 tools:layout_height="40dp" />
+
 
             <TextView
                 android:id="@+id/subtitle_trailer"
                 style="@style/AppTheme.Subtitles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="trailers"
-                tools:textColor="@android:color/background_dark"
+                android:layout_marginTop="8dp"
+                android:text="trailers" />
 
-                android:textAllCaps="true" />
+            <include layout="@layout/divider" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/detailed_trailer"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
 
+
             <TextView
                 android:id="@+id/subtitle_review"
                 style="@style/AppTheme.Subtitles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="reviews"
-                tools:textColor="@android:color/background_dark"
-                android:textAllCaps="true" />
+                android:layout_marginTop="8dp"
+                android:text="reviews" />
+
+            <include layout="@layout/divider" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/detailed_reviews"

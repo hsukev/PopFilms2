@@ -8,6 +8,7 @@
     <color name="movie_normal">#00ffffff</color>
 
     <color name="light_text">#FFFFFF</color>
+    <color name="light_gray_background">#e0e0e0</color>
     <color name="dark_background">#37474F</color>
 
 </resources>

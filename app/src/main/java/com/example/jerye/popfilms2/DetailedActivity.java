@@ -77,12 +77,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     RecyclerView reviews;
     @BindView(R.id.detailed_collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.subtitle_overview)
-    TextView subtitleOverview;
-    @BindView(R.id.subtitle_cast)
-    TextView subtitleCast;
-    @BindView(R.id.subtitle_review)
-    TextView subtitleReview;
 
     Result movie;
     MoviesService castService;
@@ -128,7 +122,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     public void populateViews() {
         Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(this);
         collapsingToolbarLayout.setTitle(movie.getOriginalTitle());
-
         // Converts date to proper format
         SimpleDateFormat readFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat writeFormat = new SimpleDateFormat("MMMdd\nyyyy");
@@ -143,7 +136,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
         releaseDate.setText(sb.toString());
         summary.setText(movie.getOverview());
-        genreList.setText(GenreScheme.getGenre(movie.getGenreIds()));
+        genreList.setText(GenreScheme.getGenre(movie.getGenreIds()), TextView.BufferType.SPANNABLE);
         ratingNumber.setText(String.valueOf(movie.getVoteAverage()));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL, false);
@@ -166,7 +159,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
         float ratingAngle = movie.getVoteAverage() * 360 / 10;
         CircleAngleAnimation circleAngleAnimation = new CircleAngleAnimation(rating, ratingAngle);
-        circleAngleAnimation.setDuration(3000);
+        circleAngleAnimation.setDuration(1500);
         circleAngleAnimation.setInterpolator(new FastOutSlowInInterpolator());
         rating.startAnimation(circleAngleAnimation);
     }
@@ -292,9 +285,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         int mutedColor = paletteBuilder.generate().getDarkVibrantColor(0xFF333333);
         collapsingToolbarLayout.setContentScrimColor(mutedColor);
         collapsingToolbarLayout.setStatusBarScrimColor(mutedColor);
-        subtitleCast.setBackgroundColor(mutedColor);
-        subtitleOverview.setBackgroundColor(mutedColor);
-        subtitleReview.setBackgroundColor(mutedColor);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);
         collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.light_text));
         background.setImageBitmap(bitmap);

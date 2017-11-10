@@ -38,7 +38,8 @@ public class ReviewDialog extends DialogFragment {
         TextView author = dialogView.findViewById(R.id.full_review_author);
         TextView content = dialogView.findViewById(R.id.full_review_content);
 
-        author.setText(result.getAuthor());
+        StringBuilder sb = new StringBuilder();
+        author.setText(sb.append(result.getAuthor()).append("'s Review") );
         content.setText(result.getContent());
 
 
