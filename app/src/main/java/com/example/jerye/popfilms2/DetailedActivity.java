@@ -1,6 +1,7 @@
 package com.example.jerye.popfilms2;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,8 +14,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.GridLayoutAnimationController;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.jerye.popfilms2.adapter.CastAdapter;
@@ -77,6 +80,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     RecyclerView reviews;
     @BindView(R.id.detailed_collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.detailed_cast_loading)
+    ProgressBar castLoader;
 
     Result movie;
     MoviesService castService;
@@ -115,7 +120,10 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
     @Override
     public void onComplete() {
+        castLoader.setVisibility(View.GONE);
+        cast.setVisibility(View.VISIBLE);
         cast.scheduleLayoutAnimation();
+
     }
 
 
@@ -283,6 +291,12 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
         Palette.Builder paletteBuilder = Palette.from(bitmap);
         int mutedColor = paletteBuilder.generate().getDarkVibrantColor(0xFF333333);
+
+        mutedColor = Color.argb(Math.round(Color.alpha(mutedColor) * 0.8f),
+                Color.red(mutedColor),
+                Color.green(mutedColor),
+                Color.blue(mutedColor)
+                );
         collapsingToolbarLayout.setContentScrimColor(mutedColor);
         collapsingToolbarLayout.setStatusBarScrimColor(mutedColor);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);

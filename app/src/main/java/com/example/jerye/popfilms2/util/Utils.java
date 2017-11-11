@@ -24,6 +24,10 @@ public class Utils {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
+    public static int pxToDp(int px){
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
+
     public static int getScreenHeight(Context context) {
         if (SCREEN_HEIGHT == 0) {
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

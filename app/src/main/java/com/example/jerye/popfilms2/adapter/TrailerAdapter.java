@@ -1,7 +1,11 @@
 package com.example.jerye.popfilms2.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,7 @@ import com.example.jerye.popfilms2.R;
 import com.example.jerye.popfilms2.data.model.trailer.Result;
 import com.example.jerye.popfilms2.util.Utils;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,16 +43,37 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     }
 
     @Override
-    public void onBindViewHolder(final TrailerViewHolder holder, int position) {
-        holder.trailer_title.setText(trailerList.get(position).getName());
-        String thumbnailUrl = Utils.buildThumbnailUri(trailerList.get(position).getKey());
-        Picasso.with(mContext).load(thumbnailUrl).into(holder.trailer_thumbnail);
+    public void onBindViewHolder(final TrailerViewHolder holder, final int position) {
+        final String thumbnailUrl = Utils.buildThumbnailUri(trailerList.get(position).getKey());
+        Target target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                int dps = Utils.pxToDp(bitmap.getWidth());
+                holder.trailer_title.setMaxWidth(dps);
+                holder.trailer_title.setText(trailerList.get(position).getName());
+                holder.trailer_thumbnail.setImageDrawable(new BitmapDrawable(mContext.getResources(),bitmap));
+                Log.d("bitmap","width:" + bitmap.getWidth() + "dps:" + dps);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+        holder.trailer_thumbnail.setTag(target);
+        Picasso.with(mContext).load(thumbnailUrl).into(target);
     }
 
     public void addTrailer(Result trailer) {
         trailerList.add(trailer);
-        notifyItemInserted(trailerList.size()-1);
+        notifyItemInserted(trailerList.size() - 1);
     }
+
 
     @Override
     public int getItemViewType(int position) {

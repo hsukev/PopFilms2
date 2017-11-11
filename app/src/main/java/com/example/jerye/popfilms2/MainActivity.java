@@ -107,8 +107,6 @@ public class MainActivity extends BaseActivity{
         }
     }
 
-
-
     public void startUpAnimation() {
         int height = Utils.dpToPx(56);
         getToolbar().setTranslationY(-height);
