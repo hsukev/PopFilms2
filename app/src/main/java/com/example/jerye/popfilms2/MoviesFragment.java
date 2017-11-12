@@ -1,7 +1,9 @@
 package com.example.jerye.popfilms2;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import android.widget.ProgressBar;
 
 import com.example.jerye.popfilms2.adapter.MovieScrollListener;
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
+import com.example.jerye.popfilms2.data.model.LanguageCode;
 import com.example.jerye.popfilms2.data.model.movies.MoviesResult;
 import com.example.jerye.popfilms2.data.model.movies.Result;
 import com.example.jerye.popfilms2.remote.MoviesService;
@@ -33,12 +36,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * A simple {@link Fragment} subclass.
  */
 public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapterListener,
-        MovieScrollListener.ReloadListener {
+        MovieScrollListener.ReloadListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
     @BindView(R.id.rv_main)
     GridRecyclerView rvMain;
     @BindView(R.id.load_screen)
     ProgressBar loadBar;
 
+    int languagePreference;
     MoviesAdapter moviesAdapter;
     MoviesService moviesService;
     int page = 1;
@@ -59,7 +64,21 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
 
     @Override
     public void onStart() {
+        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
         super.onStart();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        switch (key) {
+            case "language":
+                languagePreference = sharedPreferences.getInt("language", 42);
+                moviesAdapter.clearData();
+                fetchMovieData(1);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -80,7 +99,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
     private void setUpGrid() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
 
-        moviesAdapter = new MoviesAdapter(getContext(), queryType,this);
+        moviesAdapter = new MoviesAdapter(getContext(), queryType, this);
 
         rvMain.setLayoutManager(gridLayoutManager);
         rvMain.addOnScrollListener(new MovieScrollListener(gridLayoutManager, this));
@@ -112,7 +131,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
     }
 
     public void fetchMovieData(int page) {
-        Observable<MoviesResult> moviesResult = moviesService.getPopularMovies(this.queryType,BuildConfig.TMDB_API_KEY, page);
+        Observable<MoviesResult> moviesResult = moviesService.getPopularMovies(this.queryType, BuildConfig.TMDB_API_KEY, page, LanguageCode.code[languagePreference]);
         moviesResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(moviesResult2Result())

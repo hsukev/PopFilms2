@@ -21,20 +21,23 @@ public interface MoviesService {
     Observable<MoviesResult> getPopularMovies(
             @Path("type") String type,
             @Query("api_key") String apiKey,
-            @Query("page") int page);
+            @Query("page") int page,
+            @Query("language") String language);
 
     @GET("{id}/credits")
     Observable<Credits> getMovieCredit(@Path("id") int movieId,
-                                       @Query("api_key") String apiKey);
+                                       @Query("api_key") String apiKey,
+                                       @Query("language") String language);
 
     @GET("{id}/reviews")
     Observable<Review> getMovieReview(@Path("id") int movieId,
                                       @Query("api_key") String apiKey,
-                                      @Query("page") int page);
+                                      @Query("page") int page,
+                                      @Query("language") String language);
 
     @GET("{id}/videos")
     Observable<Trailer> getMovieTrailer(@Path("id") int movieId,
-                                        @Query("api_key") String apiKey);
+                                        @Query("api_key") String apiKey, @Query("language") String language);
 
 
 }

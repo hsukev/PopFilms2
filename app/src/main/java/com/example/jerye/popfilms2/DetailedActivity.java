@@ -1,9 +1,11 @@
 package com.example.jerye.popfilms2;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +27,7 @@ import com.example.jerye.popfilms2.adapter.MoviesAdapter;
 import com.example.jerye.popfilms2.adapter.ReviewsAdapter;
 import com.example.jerye.popfilms2.adapter.TrailerAdapter;
 import com.example.jerye.popfilms2.data.model.GenreScheme;
+import com.example.jerye.popfilms2.data.model.LanguageCode;
 import com.example.jerye.popfilms2.data.model.credits.Cast;
 import com.example.jerye.popfilms2.data.model.credits.Credits;
 import com.example.jerye.popfilms2.data.model.movies.Result;
@@ -83,6 +86,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     @BindView(R.id.detailed_cast_loading)
     ProgressBar castLoader;
 
+    int languagePreference;
     Result movie;
     MoviesService castService;
     CastAdapter castAdapter;
@@ -94,6 +98,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        languagePreference = sharedPreferences.getInt("language",42);
         ButterKnife.bind(this);
     }
 
@@ -186,7 +192,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     }
 
     public void fetchData() {
-        Observable<Credits> creditsResult = castService.getMovieCredit(movie.getId(), BuildConfig.TMDB_API_KEY);
+        Observable<Credits> creditsResult = castService.getMovieCredit(movie.getId(), BuildConfig.TMDB_API_KEY, LanguageCode.code[languagePreference]);
         creditsResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(credits2Cast())
@@ -210,7 +216,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
                     }
                 });
-        Observable<Review> reviewsResult = castService.getMovieReview(movie.getId(), BuildConfig.TMDB_API_KEY, 1);
+        Observable<Review> reviewsResult = castService.getMovieReview(movie.getId(), BuildConfig.TMDB_API_KEY, 1,LanguageCode.code[languagePreference]);
         Log.d("Review", reviewsResult.toString());
         reviewsResult
                 .subscribeOn(Schedulers.io())
@@ -234,7 +240,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     }
                 });
 
-        Observable<Trailer> trailerResult = castService.getMovieTrailer(movie.getId(), BuildConfig.TMDB_API_KEY);
+        Observable<Trailer> trailerResult = castService.getMovieTrailer(movie.getId(), BuildConfig.TMDB_API_KEY,LanguageCode.code[languagePreference]);
         trailerResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(trailer2Result())
@@ -296,7 +302,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                 Color.red(mutedColor),
                 Color.green(mutedColor),
                 Color.blue(mutedColor)
-                );
+        );
         collapsingToolbarLayout.setContentScrimColor(mutedColor);
         collapsingToolbarLayout.setStatusBarScrimColor(mutedColor);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);

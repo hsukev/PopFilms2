@@ -37,7 +37,7 @@ public class Circle extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(strokeWidth);
         //Circle color
-        paint.setColor(Color.GRAY);
+        paint.setColor(Color.parseColor("#FFC107"));
 
         //size 200x200 example
         Log.d("Test", "width height:" + getWidth() + getHeight());

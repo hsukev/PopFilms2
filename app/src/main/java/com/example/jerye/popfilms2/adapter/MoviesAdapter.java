@@ -55,7 +55,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
         switch(queryType){
             case "popular":
-                holder.gridAttribute.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_thumb_up_black_24dp,0,0,0);
+                holder.gridAttribute.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_favorite_black_24dp,0,0,0);
                 holder.gridAttribute.setText(String.valueOf(Math.round(moviesList.get(position).getPopularity())));
                 break;
             case "top_rated":
@@ -64,7 +64,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
                 break;
             case "upcoming":
                 SimpleDateFormat readFormat = new SimpleDateFormat("yyyy-MM-dd");
-                SimpleDateFormat writeFormat = new SimpleDateFormat("MMMMM dd yyyy");
+                SimpleDateFormat writeFormat = new SimpleDateFormat("MMMM dd yyyy");
                 Date date;
                 StringBuilder sb = new StringBuilder();
                 try {
@@ -122,6 +122,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + result.getPosterPath()).fetch(this);
     }
 
+    public void clearData(){
+        moviesList.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onSuccess() {
         count++;
@@ -147,6 +152,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         void onComplete();
 
     }
+
+
 
 
 
