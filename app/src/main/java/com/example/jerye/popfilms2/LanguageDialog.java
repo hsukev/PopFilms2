@@ -9,12 +9,15 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
 import com.example.jerye.popfilms2.data.model.LanguageCode;
+
+import java.util.Locale;
 
 /**
  * Created by jerye on 10/28/2017.
@@ -55,6 +58,8 @@ public class LanguageDialog extends DialogFragment {
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         picker.setDisplayedValues(LanguageCode.languages);
         picker.setValue(sharedPreferences.getInt("language",42));
+        Log.d("LanguageDialog", Locale.getISOCountries().toString());
+        Log.d("LanguageDialog", Locale.getISOLanguages().toString());
 
         FrameLayout dialogView = new FrameLayout(getContext());
         dialogView.addView(picker);

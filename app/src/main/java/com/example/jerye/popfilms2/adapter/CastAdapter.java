@@ -80,6 +80,13 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
     }
 
+    public void fetchingComplete(){
+        if(count<10){
+            notifyDataSetChanged();
+            castAdapterListener.onComplete();
+        }
+    }
+
     public class CastViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.cast_name)
         TextView castName;

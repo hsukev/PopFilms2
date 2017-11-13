@@ -4,6 +4,7 @@ package com.example.jerye.popfilms2;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,11 +48,13 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
     MoviesAdapter moviesAdapter;
     MoviesService moviesService;
     int page = 1;
+    String movieTvToggle;
     String queryType;
 
-    public static MoviesFragment newInstance(String queryType) {
+    public static MoviesFragment newInstance(String queryType, String movieTvToggle) {
         Bundle args = new Bundle();
         args.putString("query_type", queryType);
+        args.putString("toggle_type", movieTvToggle);
         MoviesFragment fragment = new MoviesFragment();
         fragment.setArguments(args);
         return fragment;
@@ -61,11 +64,12 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
         // Required empty public constructor
     }
 
-
     @Override
-    public void onStart() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
-        super.onStart();
+        queryType = this.getArguments().getString("query_type");
+        movieTvToggle = this.getArguments().getString("toggle_type");
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -86,7 +90,6 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_template, container, false);
         ButterKnife.bind(this, view);
-        queryType = this.getArguments().getString("query_type");
 
 
         setUpGrid();
@@ -99,7 +102,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
     private void setUpGrid() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
 
-        moviesAdapter = new MoviesAdapter(getContext(), queryType, this);
+        moviesAdapter = new MoviesAdapter(getContext(), queryType, movieTvToggle, this);
 
         rvMain.setLayoutManager(gridLayoutManager);
         rvMain.addOnScrollListener(new MovieScrollListener(gridLayoutManager, this));
@@ -122,7 +125,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
     public void setUpNetwork() {
 
         Retrofit retrofitClient = new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/movie/")
+                .baseUrl("https://api.themoviedb.org/3/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -131,7 +134,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
     }
 
     public void fetchMovieData(int page) {
-        Observable<MoviesResult> moviesResult = moviesService.getPopularMovies(this.queryType, BuildConfig.TMDB_API_KEY, page, LanguageCode.code[languagePreference]);
+        Observable<MoviesResult> moviesResult = moviesService.getPopularMovies(movieTvToggle, this.queryType, BuildConfig.TMDB_API_KEY, page, LanguageCode.code[languagePreference]);
         moviesResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(moviesResult2Result())

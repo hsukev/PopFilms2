@@ -35,14 +35,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     private MovieAdapterListener movieAdapterListener;
     private List<Result> moviesList = new ArrayList<>();
     private int count = 0;
-    public String queryType;
+    private String queryType, toggleType;
     public static final String BUNDLE_KEY = "bundle key";
     public static final String INTENT_KEY = "intent key";
 
 
-    public MoviesAdapter(Context context, String queryType,MovieAdapterListener movieAdapterListener) {
+    public MoviesAdapter(Context context, String queryType,String toggleType, MovieAdapterListener movieAdapterListener) {
         mContext = context;
         this.queryType = queryType;
+        this.toggleType = toggleType;
         this.movieAdapterListener = movieAdapterListener;
     }
 
@@ -111,6 +112,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             Bundle bundle = new Bundle();
             bundle.putSerializable(BUNDLE_KEY, moviesList.get(getAdapterPosition()));
             Intent intent = new Intent(mContext, DetailedActivity.class).putExtra(INTENT_KEY, bundle);
+            bundle.putString("movieTvToggle",toggleType);
             mContext.startActivity(intent);
         }
 

@@ -13,8 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.example.jerye.popfilms2.remote.MoviesService;
 import com.example.jerye.popfilms2.util.Utils;
 
 import butterknife.BindView;
@@ -26,16 +26,17 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.viewpager)
     ViewPager pager;
 
-
-    MoviesService moviesService;
+    private String movieTvToggle = "movie";
     String TAG = "MainActivity.java";
     SimpleFragmentStatePagerAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setToggle();
         startUpAnimation();
 
         adapter = new SimpleFragmentStatePagerAdapter(getSupportFragmentManager());
@@ -120,15 +121,25 @@ public class MainActivity extends BaseActivity {
         }
 
         @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+        }
+
+        @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return MoviesFragment.newInstance("popular");
+                    return MoviesFragment.newInstance("popular", movieTvToggle);
                 case 1:
-                    return MoviesFragment.newInstance("top_rated");
+                    return MoviesFragment.newInstance("top_rated", movieTvToggle);
                 default:
-                    return MoviesFragment.newInstance("upcoming");
+                    return MoviesFragment.newInstance("upcoming", movieTvToggle);
             }
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override
@@ -164,5 +175,27 @@ public class MainActivity extends BaseActivity {
                 .setStartDelay(600)
                 .start();
     }
+
+    public void setToggle() {
+        getBox1().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch(movieTvToggle){
+                    case "movie":
+                        view.setBackground(getDrawable(R.drawable.ic_local_movies_black_24dp));
+                        movieTvToggle = "tv";
+                        adapter.notifyDataSetChanged();
+                        break;
+                    case "tv":
+                        view.setBackground(getDrawable(R.drawable.ic_tv_black_24dp));
+                        movieTvToggle = "movie";
+                        adapter.notifyDataSetChanged();
+                        break;
+                }
+
+            }
+        });
+    }
+
 
 }

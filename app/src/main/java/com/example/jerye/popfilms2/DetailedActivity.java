@@ -94,7 +94,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     MoviesService castService;
     CastAdapter castAdapter;
     TrailerAdapter trailerAdapter;
-
+    String movieTvToggle;
     ReviewsAdapter reviewsAdapter;
 
     @Override
@@ -124,6 +124,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
     public Result retrieveMovie() {
         Bundle bundle = getIntent().getBundleExtra(MoviesAdapter.INTENT_KEY);
+        movieTvToggle = bundle.getString("movieTvToggle", "movie");
         return (Result) bundle.getSerializable(MoviesAdapter.BUNDLE_KEY);
     }
 
@@ -136,14 +137,16 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
     public void populateViews() {
         Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(this);
-        collapsingToolbarLayout.setTitle(movie.getOriginalTitle());
+        collapsingToolbarLayout.setTitle(movieTvToggle.equals("movie")?movie.getTitle():movie.getName());
         // Converts date to proper format
         SimpleDateFormat readFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat writeFormat = new SimpleDateFormat("MMMdd\nyyyy");
         Date date;
         StringBuilder sb = new StringBuilder();
+
+        String dateData = movieTvToggle.equals("tv") ? movie.getFirstAirDate(): movie.getReleaseDate();
         try {
-            date = readFormat.parse(movie.getReleaseDate());
+            date = readFormat.parse(dateData);
             sb.append(writeFormat.format(date));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -152,7 +155,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         releaseDate.setText(sb.toString());
         summary.setText(movie.getOverview());
         Log.d("DetailedActivity", movie.getOverview());
-        genreList.setText(GenreScheme.getGenre(movie.getGenreIds()), TextView.BufferType.SPANNABLE);
+        genreList.setText(GenreScheme.getGenre(movie.getGenreIds(),movieTvToggle.equals("movie")), TextView.BufferType.SPANNABLE);
         ratingNumber.setText(String.valueOf(movie.getVoteAverage()));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL, false);
@@ -183,7 +186,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     public void setUpNetwork() {
 
         Retrofit retrofitClient = new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/movie/")
+                .baseUrl("https://api.themoviedb.org/3/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -194,7 +197,9 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     }
 
     public void fetchData() {
-        Observable<Credits> creditsResult = castService.getMovieCredit(movie.getId(), BuildConfig.TMDB_API_KEY, LanguageCode.code[languagePreference]);
+        Log.d("Cast", movieTvToggle+movie.getId()+BuildConfig.TMDB_API_KEY);
+
+        Observable<Credits> creditsResult = castService.getMovieCredit(movieTvToggle, movie.getId(), BuildConfig.TMDB_API_KEY);
         creditsResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(credits2Cast())
@@ -206,19 +211,22 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     public void onNext(@NonNull Cast cast) {
                         limit--;
                         if (limit > 0) castAdapter.addCast(cast);
+                        Log.d("Cast", "Add");
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
+                        Log.d("Cast", "Error:" + e);
 
                     }
 
                     @Override
                     public void onComplete() {
                         castLoaderContainer.setVisibility(View.GONE);
+                        castAdapter.fetchingComplete();
                     }
                 });
-        Observable<Review> reviewsResult = castService.getMovieReview(movie.getId(), BuildConfig.TMDB_API_KEY, 1, LanguageCode.code[languagePreference]);
+        Observable<Review> reviewsResult = castService.getMovieReview(movieTvToggle, movie.getId(), BuildConfig.TMDB_API_KEY, 1, LanguageCode.code[languagePreference]);
         Log.d("Review", reviewsResult.toString());
         reviewsResult
                 .subscribeOn(Schedulers.io())
@@ -242,7 +250,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     }
                 });
 
-        Observable<Trailer> trailerResult = castService.getMovieTrailer(movie.getId(), BuildConfig.TMDB_API_KEY, LanguageCode.code[languagePreference]);
+        Observable<Trailer> trailerResult = castService.getMovieTrailer(movieTvToggle,movie.getId(), BuildConfig.TMDB_API_KEY, LanguageCode.code[languagePreference]);
         trailerResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(trailer2Result())

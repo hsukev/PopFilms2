@@ -21,11 +21,11 @@
         android:layout_marginLeft="50dp"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@color/colorAccent"
+        android:foreground="@drawable/movie_click_action"
+        android:background="@drawable/ic_tv_black_24dp"
         android:id="@+id/test_box"/>
 
     <ImageButton
-
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/overflow_dots_24dp"

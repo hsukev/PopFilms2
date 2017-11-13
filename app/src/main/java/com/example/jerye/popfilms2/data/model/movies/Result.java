@@ -24,6 +24,9 @@ public class Result implements Serializable
     @SerializedName("title")
     @Expose
     private String title;
+    @SerializedName("name")
+    @Expose
+    private String name;
     @SerializedName("popularity")
     @Expose
     private Double popularity;
@@ -51,6 +54,9 @@ public class Result implements Serializable
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
+    @SerializedName("first_air_date")
+    @Expose
+    private String firstAirDate;
     private final static long serialVersionUID = 2240101589664776707L;
 
     public Integer getVoteCount() {
@@ -83,6 +89,14 @@ public class Result implements Serializable
 
     public void setVoteAverage(Float voteAverage) {
         this.voteAverage = voteAverage;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTitle() {
@@ -163,6 +177,14 @@ public class Result implements Serializable
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public String getFirstAirDate() {
+        return firstAirDate;
+    }
+
+    public void setFirstAirDate(String firstAirDate) {
+        this.firstAirDate = firstAirDate;
     }
 
 }
