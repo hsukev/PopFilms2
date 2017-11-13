@@ -61,6 +61,7 @@ public class LanguageDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Language");
+        builder.setMessage("Contents such as Trailer and Reviews might not be available for some languages");
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

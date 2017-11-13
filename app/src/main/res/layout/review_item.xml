@@ -29,6 +29,6 @@
         android:paddingBottom="8dp"
         android:textStyle="bold" />
 
-    <include layout="@layout/divider" />
+    <include layout="@layout/divider_hori" />
 
 </LinearLayout>

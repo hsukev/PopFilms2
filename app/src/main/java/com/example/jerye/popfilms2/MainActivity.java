@@ -1,5 +1,7 @@
 package com.example.jerye.popfilms2;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -42,6 +44,7 @@ public class MainActivity extends BaseActivity {
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
         tabs.setupWithViewPager(pager);
         tabs.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabs.setSelectedTabIndicatorColor(Color.WHITE);
         tabs.setTabTextColors(Color.parseColor("#99FFFFFF"), Color.WHITE);
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -76,7 +79,15 @@ public class MainActivity extends BaseActivity {
                 picker.show(getSupportFragmentManager(), "full review");
                 return true;
             case R.id.menu_about:
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                    }
+                });
+                builder.setView(R.layout.about_dialog);
+                builder.show();
                 return true;
             default:
                 return true;

@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.GridLayoutAnimationController;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -85,6 +86,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.detailed_cast_loading)
     ProgressBar castLoader;
+    @BindView(R.id.detailed_cast_loading_container)
+    FrameLayout castLoaderContainer;
 
     int languagePreference;
     Result movie;
@@ -99,7 +102,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        languagePreference = sharedPreferences.getInt("language",42);
+        languagePreference = sharedPreferences.getInt("language", 42);
         ButterKnife.bind(this);
     }
 
@@ -129,9 +132,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         castLoader.setVisibility(View.GONE);
         cast.setVisibility(View.VISIBLE);
         cast.scheduleLayoutAnimation();
-
     }
-
 
     public void populateViews() {
         Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(this);
@@ -150,6 +151,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
         releaseDate.setText(sb.toString());
         summary.setText(movie.getOverview());
+        Log.d("DetailedActivity", movie.getOverview());
         genreList.setText(GenreScheme.getGenre(movie.getGenreIds()), TextView.BufferType.SPANNABLE);
         ratingNumber.setText(String.valueOf(movie.getVoteAverage()));
 
@@ -213,10 +215,10 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
                     @Override
                     public void onComplete() {
-
+                        castLoaderContainer.setVisibility(View.GONE);
                     }
                 });
-        Observable<Review> reviewsResult = castService.getMovieReview(movie.getId(), BuildConfig.TMDB_API_KEY, 1,LanguageCode.code[languagePreference]);
+        Observable<Review> reviewsResult = castService.getMovieReview(movie.getId(), BuildConfig.TMDB_API_KEY, 1, LanguageCode.code[languagePreference]);
         Log.d("Review", reviewsResult.toString());
         reviewsResult
                 .subscribeOn(Schedulers.io())
@@ -240,7 +242,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     }
                 });
 
-        Observable<Trailer> trailerResult = castService.getMovieTrailer(movie.getId(), BuildConfig.TMDB_API_KEY,LanguageCode.code[languagePreference]);
+        Observable<Trailer> trailerResult = castService.getMovieTrailer(movie.getId(), BuildConfig.TMDB_API_KEY, LanguageCode.code[languagePreference]);
         trailerResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(trailer2Result())

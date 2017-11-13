@@ -40,7 +40,6 @@
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
-
     </android.support.design.widget.AppBarLayout>
 
 
@@ -92,6 +91,8 @@
                         android:padding="8dp"
                         tools:text="Comedy\nAction\nDrama" />
 
+                    <include layout="@layout/divider_vert" />
+
                     <TextView
                         android:id="@+id/detailed_release_date"
                         android:layout_width="0dp"
@@ -103,6 +104,7 @@
                         android:textStyle="bold"
                         tools:text="JULY \n 01 17" />
 
+                    <include layout="@layout/divider_vert" />
 
                     <FrameLayout
                         android:id="@+id/detailed_rating_container"
@@ -126,8 +128,6 @@
                             android:textStyle="bold"
                             tools:text="9.3" />
                     </FrameLayout>
-
-
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
@@ -157,15 +157,23 @@
                 android:text="cast"
                 android:textAllCaps="true" />
 
-            <include layout="@layout/divider" />
+            <include layout="@layout/divider_hori" />
 
-            <ProgressBar
-                android:id="@+id/detailed_cast_loading"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@android:color/white"
+            <FrameLayout
+                android:id="@+id/detailed_cast_loading_container"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@android:color/white">
 
-                android:visibility="visible" />
+                <ProgressBar
+                    android:id="@+id/detailed_cast_loading"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:background="@android:color/white"
+                    android:visibility="visible" />
+            </FrameLayout>
+
 
             <com.example.jerye.popfilms2.GridRecyclerView
                 android:id="@+id/detailed_cast"
@@ -186,8 +194,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
 
                     <TextView
@@ -198,7 +206,7 @@
                         android:layout_marginTop="8dp"
                         android:text="trailers" />
 
-                    <include layout="@layout/divider" />
+                    <include layout="@layout/divider_hori" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/detailed_trailer"
@@ -217,7 +225,8 @@
                 android:layout_marginTop="4dp"
                 android:text="reviews" />
 
-            <include layout="@layout/divider" />
+            <include layout="@layout/divider_hori" />
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/detailed_reviews"

@@ -140,6 +140,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
                     @Override
                     public void onNext(@NonNull Result r) {
                         moviesAdapter.addMovies(r);
+
                     }
 
                     @Override
