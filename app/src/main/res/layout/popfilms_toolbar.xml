@@ -4,30 +4,53 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?android:actionBarSize"
-    app:layout_collapseMode="parallax"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/popfilms_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="PopFilms"
-        android:textColor="@android:color/white"
-        android:textSize="16sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_marginLeft="50dp"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:foreground="@drawable/movie_click_action"
-        android:background="@drawable/ic_tv_black_24dp"
-        android:id="@+id/test_box"/>
+        <TextView
+            android:id="@+id/popfilms_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/ic_info_outline_black_24dp"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:text="PopFilms"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
-    <ImageButton
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/overflow_dots_24dp"
-        android:id="@+id/test_box2"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/popfilms_title"
+            android:text="movie"
+            android:textColor="@android:color/white"
+            android:textAllCaps="true" />
+
+        <ImageButton
+            android:id="@+id/test_box2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/ic_info_outline_black_24dp"
+            android:onClick="about" />
+
+        <ImageView
+            android:id="@+id/test_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_toLeftOf="@id/test_box2"
+            android:background="@drawable/ic_tv_black_24dp"
+            android:foreground="@drawable/movie_click_action" />
+
+
+    </RelativeLayout>
+
 
 </android.support.v7.widget.Toolbar>

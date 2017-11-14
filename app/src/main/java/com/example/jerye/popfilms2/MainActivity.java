@@ -1,20 +1,15 @@
 package com.example.jerye.popfilms2;
 
 import android.animation.Animator;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.TextView;
@@ -31,10 +26,11 @@ public class MainActivity extends BaseActivity {
     ViewPager pager;
     @BindView(R.id.blank)
     TextView blank;
-    @BindView(R.id.detailed_collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.appbar)
+    AppBarLayout appbar;
 
     private String movieTvToggle = "movie";
+    private String toggledThirdTab = "upcoming";
     String TAG = "MainActivity.java";
     SimpleFragmentStatePagerAdapter adapter;
 
@@ -73,36 +69,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_options_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_language:
-                LanguageDialog picker = LanguageDialog.newInstance();
-                picker.show(getSupportFragmentManager(), "full review");
-                return true;
-            case R.id.menu_about:
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                builder.setView(R.layout.about_dialog);
-                builder.show();
-                return true;
-            default:
-                return true;
-        }
-
-    }
 
     @Override
     public void onEnterAnimationComplete() {
@@ -141,7 +107,7 @@ public class MainActivity extends BaseActivity {
                 case 1:
                     return MoviesFragment.newInstance("top_rated", movieTvToggle);
                 default:
-                    return MoviesFragment.newInstance("upcoming", movieTvToggle);
+                    return MoviesFragment.newInstance(toggledThirdTab, movieTvToggle);
             }
         }
 
@@ -194,6 +160,8 @@ public class MainActivity extends BaseActivity {
                     case "movie":
                         view.setBackground(getDrawable(R.drawable.ic_local_movies_black_24dp));
                         movieTvToggle = "tv";
+                        toggledThirdTab = "on_the_air";
+                        tabs.getTabAt(2).setText("on the air");
                         adapter.notifyDataSetChanged();
 
                         revealTv();
@@ -202,6 +170,10 @@ public class MainActivity extends BaseActivity {
                     case "tv":
                         view.setBackground(getDrawable(R.drawable.ic_tv_black_24dp));
                         movieTvToggle = "movie";
+                        toggledThirdTab = "upcoming";
+
+                        tabs.getTabAt(2).setText("upcoming");
+
                         adapter.notifyDataSetChanged();
 
                         revealMovie();
@@ -215,7 +187,7 @@ public class MainActivity extends BaseActivity {
     public void revealTv() {
         int x = (box1.getLeft() + box1.getRight()) / 2;
         int y = (box1.getTop() + box1.getBottom()) / 2;
-        int radius = (int) Math.hypot(collapsingToolbarLayout.getRight() - x, collapsingToolbarLayout.getBottom() - y);
+        int radius = (int) Math.hypot(appbar.getLeft() - x, appbar.getBottom() - y);
         Animator anim = ViewAnimationUtils.createCircularReveal(blank, x, y, 0, radius);
 
         blank.setVisibility(View.VISIBLE);
@@ -225,7 +197,7 @@ public class MainActivity extends BaseActivity {
     public void revealMovie() {
         int x = (box1.getLeft() + box1.getRight()) / 2;
         int y = (box1.getTop() + box1.getBottom()) / 2;
-        int radius = (int) Math.hypot(collapsingToolbarLayout.getRight() - x, collapsingToolbarLayout.getBottom() - y);
+        int radius = (int) Math.hypot(appbar.getLeft() - x, appbar.getBottom() - y);
         Animator anim = ViewAnimationUtils.createCircularReveal(blank, x, y, radius, 0);
         anim.addListener(new Animator.AnimatorListener() {
             @Override

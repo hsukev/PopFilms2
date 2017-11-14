@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E53935</color>
-    <color name="colorPrimaryDark">#B71C1C</color>
-    <color name="colorAccent">#546E7A</color>
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#D32F2F</color>
+    <color name="colorAccent">#314D5B</color>
 
     <color name="movie_pressed">#40000000</color>
     <color name="movie_normal">#00ffffff</color>
 
     <color name="light_text">#FFFFFF</color>
-    <color name="light_gray_background">#e0e0e0</color>
+    <color name="light_gray_background">#BDBDBD</color>
     <color name="dark_background">#37474F</color>
 
 </resources>
