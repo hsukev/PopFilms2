@@ -1,9 +1,11 @@
 package com.example.jerye.popfilms2;
 
+import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.widget.TextView;
 
 import com.example.jerye.popfilms2.util.Utils;
 
@@ -25,6 +29,10 @@ public class MainActivity extends BaseActivity {
     TabLayout tabs;
     @BindView(R.id.viewpager)
     ViewPager pager;
+    @BindView(R.id.blank)
+    TextView blank;
+    @BindView(R.id.detailed_collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     private String movieTvToggle = "movie";
     String TAG = "MainActivity.java";
@@ -180,21 +188,68 @@ public class MainActivity extends BaseActivity {
         getBox1().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch(movieTvToggle){
+
+                switch (movieTvToggle) {
+
                     case "movie":
                         view.setBackground(getDrawable(R.drawable.ic_local_movies_black_24dp));
                         movieTvToggle = "tv";
                         adapter.notifyDataSetChanged();
+
+                        revealTv();
+
                         break;
                     case "tv":
                         view.setBackground(getDrawable(R.drawable.ic_tv_black_24dp));
                         movieTvToggle = "movie";
                         adapter.notifyDataSetChanged();
+
+                        revealMovie();
                         break;
                 }
 
             }
         });
+    }
+
+    public void revealTv() {
+        int x = (box1.getLeft() + box1.getRight()) / 2;
+        int y = (box1.getTop() + box1.getBottom()) / 2;
+        int radius = (int) Math.hypot(collapsingToolbarLayout.getRight() - x, collapsingToolbarLayout.getBottom() - y);
+        Animator anim = ViewAnimationUtils.createCircularReveal(blank, x, y, 0, radius);
+
+        blank.setVisibility(View.VISIBLE);
+        anim.start();
+    }
+
+    public void revealMovie() {
+        int x = (box1.getLeft() + box1.getRight()) / 2;
+        int y = (box1.getTop() + box1.getBottom()) / 2;
+        int radius = (int) Math.hypot(collapsingToolbarLayout.getRight() - x, collapsingToolbarLayout.getBottom() - y);
+        Animator anim = ViewAnimationUtils.createCircularReveal(blank, x, y, radius, 0);
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                blank.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        anim.start();
     }
 
 

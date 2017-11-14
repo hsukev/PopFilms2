@@ -156,6 +156,10 @@
 
             <include layout="@layout/divider_hori" />
 
+            <include
+                android:id="@+id/detailed_cast_null"
+                layout="@layout/no_content_error" />
+
             <FrameLayout
                 android:id="@+id/detailed_cast_loading_container"
                 android:layout_width="match_parent"
@@ -200,9 +204,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:paddingStart="8dp"
-                        android:text="trailers" />
+                        android:text="videos" />
 
                     <include layout="@layout/divider_hori" />
+                    <include
+                        android:id="@+id/detailed_trailer_null"
+                        layout="@layout/no_content_error" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/detailed_trailer"
@@ -222,6 +229,10 @@
                 android:text="reviews" />
 
             <include layout="@layout/divider_hori" />
+
+            <include
+                android:id="@+id/detailed_review_null"
+                layout="@layout/no_content_error" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/detailed_reviews"

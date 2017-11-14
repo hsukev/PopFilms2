@@ -51,7 +51,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
 //        http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
         Log.d("test", "bind view");
-        holder.gridTitle.setText(moviesList.get(position).getTitle());
+        holder.gridTitle.setText(toggleType.equals("movie")?moviesList.get(position).getTitle():moviesList.get(position).getName());
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + moviesList.get(position).getPosterPath()).into(holder.gridPoster);
 
         switch(queryType){

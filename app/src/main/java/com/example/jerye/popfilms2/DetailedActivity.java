@@ -88,6 +88,12 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     ProgressBar castLoader;
     @BindView(R.id.detailed_cast_loading_container)
     FrameLayout castLoaderContainer;
+    @BindView(R.id.detailed_cast_null)
+    TextView nullCast;
+    @BindView(R.id.detailed_review_null)
+    TextView nullReview;
+    @BindView(R.id.detailed_trailer_null)
+    TextView nullTrailer;
 
     int languagePreference;
     Result movie;
@@ -137,14 +143,14 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
     public void populateViews() {
         Picasso.with(this).load("http://image.tmdb.org/t/p/w500/" + movie.getBackdropPath()).into(this);
-        collapsingToolbarLayout.setTitle(movieTvToggle.equals("movie")?movie.getTitle():movie.getName());
+        collapsingToolbarLayout.setTitle(movieTvToggle.equals("movie") ? movie.getTitle() : movie.getName());
         // Converts date to proper format
         SimpleDateFormat readFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat writeFormat = new SimpleDateFormat("MMMdd\nyyyy");
         Date date;
         StringBuilder sb = new StringBuilder();
 
-        String dateData = movieTvToggle.equals("tv") ? movie.getFirstAirDate(): movie.getReleaseDate();
+        String dateData = movieTvToggle.equals("tv") ? movie.getFirstAirDate() : movie.getReleaseDate();
         try {
             date = readFormat.parse(dateData);
             sb.append(writeFormat.format(date));
@@ -155,7 +161,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         releaseDate.setText(sb.toString());
         summary.setText(movie.getOverview());
         Log.d("DetailedActivity", movie.getOverview());
-        genreList.setText(GenreScheme.getGenre(movie.getGenreIds(),movieTvToggle.equals("movie")), TextView.BufferType.SPANNABLE);
+        genreList.setText(GenreScheme.getGenre(movie.getGenreIds(), movieTvToggle.equals("movie")), TextView.BufferType.SPANNABLE);
         ratingNumber.setText(String.valueOf(movie.getVoteAverage()));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL, false);
@@ -197,7 +203,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     }
 
     public void fetchData() {
-        Log.d("Cast", movieTvToggle+movie.getId()+BuildConfig.TMDB_API_KEY);
+        Log.d("Cast", movieTvToggle + movie.getId() + BuildConfig.TMDB_API_KEY);
 
         Observable<Credits> creditsResult = castService.getMovieCredit(movieTvToggle, movie.getId(), BuildConfig.TMDB_API_KEY);
         creditsResult
@@ -217,7 +223,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     @Override
                     public void onError(@NonNull Throwable e) {
                         Log.d("Cast", "Error:" + e);
-
+                        nullCast.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -242,6 +248,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     @Override
                     public void onError(@NonNull Throwable e) {
                         Log.d("Review", "Error: " + e);
+                        nullReview.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -250,7 +257,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     }
                 });
 
-        Observable<Trailer> trailerResult = castService.getMovieTrailer(movieTvToggle,movie.getId(), BuildConfig.TMDB_API_KEY, LanguageCode.code[languagePreference]);
+        Observable<Trailer> trailerResult = castService.getMovieTrailer(movieTvToggle, movie.getId(), BuildConfig.TMDB_API_KEY, LanguageCode.code[languagePreference]);
         trailerResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(trailer2Result())
@@ -265,6 +272,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     @Override
                     public void onError(@NonNull Throwable e) {
                         Log.d("Trailer", "Error: " + e);
+                        nullTrailer.setVisibility(View.VISIBLE);
+
                     }
 
                     @Override
