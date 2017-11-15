@@ -21,8 +21,7 @@ public interface MoviesService {
     Observable<MoviesResult> getPopularMovies(@Path("tvToggle") String tvToggle,
                                               @Path("filterType") String type,
                                               @Query("api_key") String apiKey,
-                                              @Query("page") int page,
-                                              @Query("language") String language);
+                                              @Query("page") int page);
 
     @GET("{tvToggle}/{id}/credits")
     Observable<Credits> getMovieCredit(@Path("tvToggle") String tvToggle,
@@ -34,13 +33,12 @@ public interface MoviesService {
     Observable<Review> getMovieReview(@Path("tvToggle") String tvToggle,
                                       @Path("id") int movieId,
                                       @Query("api_key") String apiKey,
-                                      @Query("page") int page,
-                                      @Query("language") String language);
+                                      @Query("page") int page);
 
     @GET("{tvToggle}/{id}/videos")
     Observable<Trailer> getMovieTrailer(@Path("tvToggle") String tvToggle,
                                         @Path("id") int movieId,
-                                        @Query("api_key") String apiKey, @Query("language") String language);
+                                        @Query("api_key") String apiKey);
 
 
 }

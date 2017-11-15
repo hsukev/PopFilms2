@@ -123,7 +123,7 @@ public class GenreScheme {
             spannableString.setSpan(new ForegroundColorSpan(genreColors[genre.indexOfValue(item)]), 0, item.length(), 0);
             builder.append(spannableString).append("\n");
         }
-        if(size>1){
+        if(size>=1){
             builder.append(genre.get(list.get(size - 1)));
         }
         return builder;

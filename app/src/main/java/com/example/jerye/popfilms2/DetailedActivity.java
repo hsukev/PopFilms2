@@ -28,7 +28,6 @@ import com.example.jerye.popfilms2.adapter.MoviesAdapter;
 import com.example.jerye.popfilms2.adapter.ReviewsAdapter;
 import com.example.jerye.popfilms2.adapter.TrailerAdapter;
 import com.example.jerye.popfilms2.data.model.GenreScheme;
-import com.example.jerye.popfilms2.data.model.LanguageCode;
 import com.example.jerye.popfilms2.data.model.credits.Cast;
 import com.example.jerye.popfilms2.data.model.credits.Credits;
 import com.example.jerye.popfilms2.data.model.movies.Result;
@@ -70,6 +69,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     TextView releaseDate;
     @BindView(R.id.detailed_rating)
     Circle rating;
+    @BindView(R.id.detailed_popularity)
+    TextView popularity;
     @BindView(R.id.detailed_rating_number)
     TextView ratingNumber;
     @BindView(R.id.detailed_summary)
@@ -146,7 +147,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         collapsingToolbarLayout.setTitle(movieTvToggle.equals("movie") ? movie.getTitle() : movie.getName());
         // Converts date to proper format
         SimpleDateFormat readFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat writeFormat = new SimpleDateFormat("MMMdd\nyyyy");
+        SimpleDateFormat writeFormat = new SimpleDateFormat("MMM.\ndd\nyyyy");
         Date date;
         StringBuilder sb = new StringBuilder();
 
@@ -163,6 +164,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         Log.d("DetailedActivity", movie.getOverview());
         genreList.setText(GenreScheme.getGenre(movie.getGenreIds(), movieTvToggle.equals("movie")), TextView.BufferType.SPANNABLE);
         ratingNumber.setText(String.valueOf(movie.getVoteAverage()));
+        popularity.setText(String.valueOf(Math.round(movie.getPopularity())));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL, false);
         GridLayoutAnimationController controller = (GridLayoutAnimationController) cast.getLayoutAnimation();
@@ -232,7 +234,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                         castAdapter.fetchingComplete();
                     }
                 });
-        Observable<Review> reviewsResult = castService.getMovieReview(movieTvToggle, movie.getId(), BuildConfig.TMDB_API_KEY, 1, LanguageCode.code[languagePreference]);
+        Observable<Review> reviewsResult = castService.getMovieReview(movieTvToggle, movie.getId(), BuildConfig.TMDB_API_KEY, 1);
         Log.d("Review", reviewsResult.toString());
         reviewsResult
                 .subscribeOn(Schedulers.io())
@@ -257,7 +259,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     }
                 });
 
-        Observable<Trailer> trailerResult = castService.getMovieTrailer(movieTvToggle, movie.getId(), BuildConfig.TMDB_API_KEY, LanguageCode.code[languagePreference]);
+        Observable<Trailer> trailerResult = castService.getMovieTrailer(movieTvToggle, movie.getId(), BuildConfig.TMDB_API_KEY);
         trailerResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(trailer2Result())

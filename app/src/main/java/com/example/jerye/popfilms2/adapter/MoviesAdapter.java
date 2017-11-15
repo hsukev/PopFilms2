@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  * Created by jerye on 8/13/2017.
  */
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> implements Callback{
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> implements Callback {
     private Context mContext;
     private MovieAdapterListener movieAdapterListener;
     private List<Result> moviesList = new ArrayList<>();
@@ -40,7 +40,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     public static final String INTENT_KEY = "intent key";
 
 
-    public MoviesAdapter(Context context, String queryType,String toggleType, MovieAdapterListener movieAdapterListener) {
+    public MoviesAdapter(Context context, String queryType, String toggleType, MovieAdapterListener movieAdapterListener) {
         mContext = context;
         this.queryType = queryType;
         this.toggleType = toggleType;
@@ -51,25 +51,26 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
 //        http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
         Log.d("test", "bind view");
-        holder.gridTitle.setText(toggleType.equals("movie")?moviesList.get(position).getTitle():moviesList.get(position).getName());
+        holder.gridTitle.setText(toggleType.equals("movie") ? moviesList.get(position).getTitle() : moviesList.get(position).getName());
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + moviesList.get(position).getPosterPath()).into(holder.gridPoster);
 
-        switch(queryType){
+        switch (queryType) {
             case "popular":
-                holder.gridAttribute.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_favorite_black_24dp,0,0,0);
+                holder.gridAttribute.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_favorite_black_16dp, 0, 0, 0);
                 holder.gridAttribute.setText(String.valueOf(Math.round(moviesList.get(position).getPopularity())));
                 break;
             case "top_rated":
-                holder.gridAttribute.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_star_black_24dp,0,0,0);
+                holder.gridAttribute.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_star_black_24dp, 0, 0, 0);
                 holder.gridAttribute.setText(String.valueOf(moviesList.get(position).getVoteAverage()));
                 break;
-            case "upcoming":
+            default:
+                String displayDate = queryType.equals("upcoming") ? moviesList.get(position).getReleaseDate() : moviesList.get(position).getFirstAirDate();
                 SimpleDateFormat readFormat = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat writeFormat = new SimpleDateFormat("MMMM dd yyyy");
                 Date date;
                 StringBuilder sb = new StringBuilder();
                 try {
-                    date = readFormat.parse(moviesList.get(position).getReleaseDate());
+                    date = readFormat.parse(displayDate);
                     sb.append(writeFormat.format(date));
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -112,7 +113,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             Bundle bundle = new Bundle();
             bundle.putSerializable(BUNDLE_KEY, moviesList.get(getAdapterPosition()));
             Intent intent = new Intent(mContext, DetailedActivity.class).putExtra(INTENT_KEY, bundle);
-            bundle.putString("movieTvToggle",toggleType);
+            bundle.putString("movieTvToggle", toggleType);
             mContext.startActivity(intent);
         }
 
@@ -124,7 +125,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + result.getPosterPath()).fetch(this);
     }
 
-    public void clearData(){
+    public void clearData() {
         moviesList.clear();
         notifyDataSetChanged();
     }
@@ -132,10 +133,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     @Override
     public void onSuccess() {
         count++;
-        if(count == 20){
+        if (count == 20) {
             notifyDataSetChanged();
             movieAdapterListener.onComplete();
-        }else if(count > 20){
+        } else if (count > 20) {
             notifyDataSetChanged();
         }
     }
@@ -145,19 +146,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         Log.d("test", "cache error");
     }
 
-    public void finishedAdding(){
+    public void finishedAdding() {
         Log.d("test", "finished adding");
 
     }
 
-    public interface MovieAdapterListener{
+    public interface MovieAdapterListener {
         void onComplete();
 
     }
-
-
-
-
 
 
 }

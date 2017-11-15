@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jerye.popfilms2.util.Utils;
 
@@ -28,10 +29,13 @@ public class MainActivity extends BaseActivity {
     TextView blank;
     @BindView(R.id.appbar)
     AppBarLayout appbar;
+    @BindView(R.id.toolbar_toggled_title)
+    TextView toggledTitle;
 
     private String movieTvToggle = "movie";
     private String toggledThirdTab = "upcoming";
     String TAG = "MainActivity.java";
+    Toast toast;
     SimpleFragmentStatePagerAdapter adapter;
 
 
@@ -42,9 +46,8 @@ public class MainActivity extends BaseActivity {
 
         setToggle();
         startUpAnimation();
-
+        toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
         adapter = new SimpleFragmentStatePagerAdapter(getSupportFragmentManager());
-
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
         tabs.setupWithViewPager(pager);
@@ -90,7 +93,7 @@ public class MainActivity extends BaseActivity {
                 case 1:
                     return "top rated";
                 default:
-                    return "upcoming";
+                    return isMovie(movieTvToggle)? "upcoming": "on the air";
             }
         }
 
@@ -154,16 +157,18 @@ public class MainActivity extends BaseActivity {
         getBox1().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 switch (movieTvToggle) {
 
                     case "movie":
                         view.setBackground(getDrawable(R.drawable.ic_local_movies_black_24dp));
                         movieTvToggle = "tv";
                         toggledThirdTab = "on_the_air";
-                        tabs.getTabAt(2).setText("on the air");
+                        toggledTitle.setText("tv shows");
                         adapter.notifyDataSetChanged();
 
+                        toast.cancel();
+                        toast = Toast.makeText(MainActivity.this, "Showing TV SHOWS", Toast.LENGTH_SHORT);
+                        toast.show();
                         revealTv();
 
                         break;
@@ -171,11 +176,12 @@ public class MainActivity extends BaseActivity {
                         view.setBackground(getDrawable(R.drawable.ic_tv_black_24dp));
                         movieTvToggle = "movie";
                         toggledThirdTab = "upcoming";
-
-                        tabs.getTabAt(2).setText("upcoming");
-
+                        toggledTitle.setText("movies");
                         adapter.notifyDataSetChanged();
 
+                        toast.cancel();
+                        toast = Toast.makeText(MainActivity.this, "Showing MOVIES", Toast.LENGTH_SHORT);
+                        toast.show();
                         revealMovie();
                         break;
                 }
@@ -224,5 +230,13 @@ public class MainActivity extends BaseActivity {
         anim.start();
     }
 
+    public boolean isMovie(String movieTvToggle){
+        return movieTvToggle.equals("movie");
+    }
 
+    @Override
+    protected void onPause() {
+        toast.cancel();
+        super.onPause();
+    }
 }

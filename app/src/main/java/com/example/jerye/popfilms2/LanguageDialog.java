@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
-import com.example.jerye.popfilms2.data.model.LanguageCode;
-
 import java.util.Locale;
 
 /**
@@ -56,7 +54,7 @@ public class LanguageDialog extends DialogFragment {
         picker.setMinValue(0);
         picker.setMaxValue(123);
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        picker.setDisplayedValues(LanguageCode.languages);
+//        picker.setDisplayedValues(LanguageCode.languages);
         picker.setValue(sharedPreferences.getInt("language",42));
         Log.d("LanguageDialog", Locale.getISOCountries().toString());
         Log.d("LanguageDialog", Locale.getISOLanguages().toString());

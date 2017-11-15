@@ -19,7 +19,7 @@
             android:drawableLeft="@drawable/ic_info_outline_black_24dp"
             android:drawablePadding="8dp"
             android:gravity="center"
-            android:text="PopFilms"
+            android:text="PopFilms:"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
@@ -28,6 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/popfilms_title"
             android:text="movie"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:id="@+id/toolbar_toggled_title"
             android:textColor="@android:color/white"
             android:textAllCaps="true" />
 

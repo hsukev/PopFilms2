@@ -1,9 +1,7 @@
 package com.example.jerye.popfilms2;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,7 +14,6 @@ import android.widget.ProgressBar;
 
 import com.example.jerye.popfilms2.adapter.MovieScrollListener;
 import com.example.jerye.popfilms2.adapter.MoviesAdapter;
-import com.example.jerye.popfilms2.data.model.LanguageCode;
 import com.example.jerye.popfilms2.data.model.movies.MoviesResult;
 import com.example.jerye.popfilms2.data.model.movies.Result;
 import com.example.jerye.popfilms2.remote.MoviesService;
@@ -37,8 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * A simple {@link Fragment} subclass.
  */
 public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapterListener,
-        MovieScrollListener.ReloadListener,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        MovieScrollListener.ReloadListener{
     @BindView(R.id.rv_main)
     GridRecyclerView rvMain;
     @BindView(R.id.load_screen)
@@ -66,24 +62,24 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
+//        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
         queryType = this.getArguments().getString("query_type");
         movieTvToggle = this.getArguments().getString("toggle_type");
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        switch (key) {
-            case "language":
-                languagePreference = sharedPreferences.getInt("language", 42);
-                moviesAdapter.clearData();
-                fetchMovieData(1);
-                break;
-            default:
-                break;
-        }
-    }
+//    @Override
+//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+//        switch (key) {
+//            case "language":
+//                languagePreference = sharedPreferences.getInt("language", 42);
+//                moviesAdapter.clearData();
+//                fetchMovieData(1);
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -134,7 +130,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
     }
 
     public void fetchMovieData(int page) {
-        Observable<MoviesResult> moviesResult = moviesService.getPopularMovies(movieTvToggle, this.queryType, BuildConfig.TMDB_API_KEY, page, LanguageCode.code[languagePreference]);
+        Observable<MoviesResult> moviesResult = moviesService.getPopularMovies(movieTvToggle, this.queryType, BuildConfig.TMDB_API_KEY, page);
         moviesResult
                 .subscribeOn(Schedulers.io())
                 .flatMap(moviesResult2Result())

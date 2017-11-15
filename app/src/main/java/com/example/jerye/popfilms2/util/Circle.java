@@ -30,7 +30,7 @@ public class Circle extends View {
     public Circle(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        strokeWidth = 40;
+        strokeWidth = 32;
 
         paint = new Paint();
         paint.setAntiAlias(true);
