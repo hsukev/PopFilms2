@@ -232,6 +232,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     public void onComplete() {
                         castLoaderContainer.setVisibility(View.GONE);
                         castAdapter.fetchingComplete();
+                        if (castAdapter.getItemCount() == 0) nullCast.setVisibility(View.VISIBLE);
+
                     }
                 });
         Observable<Review> reviewsResult = castService.getMovieReview(movieTvToggle, movie.getId(), BuildConfig.TMDB_API_KEY, 1);
@@ -256,6 +258,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     @Override
                     public void onComplete() {
                         Log.d("Review", "completed");
+                        if (reviewsAdapter.getItemCount() == 0) nullReview.setVisibility(View.VISIBLE);
+
                     }
                 });
 
@@ -281,7 +285,10 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
                     @Override
                     public void onComplete() {
                         Log.d("Trailer", "completed");
+                        if (trailerAdapter.getItemCount() == 0) nullTrailer.setVisibility(View.VISIBLE);
+
                     }
+
                 });
 
     }
@@ -326,8 +333,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         );
         collapsingToolbarLayout.setContentScrimColor(mutedColor);
         collapsingToolbarLayout.setStatusBarScrimColor(mutedColor);
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);
-        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.light_text));
         background.setImageBitmap(bitmap);
     }
 
@@ -338,12 +343,10 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
     @Override
     public void onPrepareLoad(Drawable placeHolderDrawable) {
+        background.setImageDrawable(placeHolderDrawable);
 
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);
+        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.light_text));
     }
-
-    public int colorDistinction(int muted) {
-        return muted;
-    }
-
 
 }

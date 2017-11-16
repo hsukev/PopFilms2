@@ -12,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +39,17 @@ public class MainActivity extends BaseActivity {
     String TAG = "MainActivity.java";
     Toast toast;
     SimpleFragmentStatePagerAdapter adapter;
+    Window window;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         setToggle();
         startUpAnimation();
@@ -166,6 +173,8 @@ public class MainActivity extends BaseActivity {
                         toggledTitle.setText("tv shows");
                         adapter.notifyDataSetChanged();
 
+                        window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.colorAccentDark));
+
                         toast.cancel();
                         toast = Toast.makeText(MainActivity.this, "Showing TV SHOWS", Toast.LENGTH_SHORT);
                         toast.show();
@@ -178,6 +187,8 @@ public class MainActivity extends BaseActivity {
                         toggledThirdTab = "upcoming";
                         toggledTitle.setText("movies");
                         adapter.notifyDataSetChanged();
+
+                        window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.colorPrimaryDark));
 
                         toast.cancel();
                         toast = Toast.makeText(MainActivity.this, "Showing MOVIES", Toast.LENGTH_SHORT);
@@ -202,9 +213,10 @@ public class MainActivity extends BaseActivity {
 
     public void revealMovie() {
         int x = (box1.getLeft() + box1.getRight()) / 2;
+        Log.d("Main", box1.getLeft() +"-"+ box1.getRight());
         int y = (box1.getTop() + box1.getBottom()) / 2;
         int radius = (int) Math.hypot(appbar.getLeft() - x, appbar.getBottom() - y);
-        Animator anim = ViewAnimationUtils.createCircularReveal(blank, x, y, radius, 0);
+        Animator anim = ViewAnimationUtils.createCircularReveal(blank, box1.getRight(), y, radius, 0);
         anim.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {

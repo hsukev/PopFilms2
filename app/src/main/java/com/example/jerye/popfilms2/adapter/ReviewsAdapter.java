@@ -57,6 +57,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
     }
 
 
+
     public class ReviewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.reviews_author)
         TextView reviewsAuthor;
@@ -78,6 +79,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
 
     public interface ReviewsAdapterListener {
         void onClick(Result fullReview);
+
     }
 
 }
