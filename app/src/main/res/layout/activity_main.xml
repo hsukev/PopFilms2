@@ -19,7 +19,7 @@
             android:elevation="8dp"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed|snap"
             app:titleEnabled="false">
             <TextView
                 android:visibility="gone"

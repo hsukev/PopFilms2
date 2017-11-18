@@ -16,26 +16,26 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:drawableLeft="@drawable/ic_info_outline_black_24dp"
-            android:drawablePadding="8dp"
+            android:drawableLeft="@drawable/popfilms_icon"
+            android:drawablePadding="16dp"
             android:gravity="center"
             android:text="PopFilms:"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/toolbar_toggled_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/popfilms_title"
-            android:text="movie"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/popfilms_title"
             android:padding="8dp"
-            android:id="@+id/toolbar_toggled_title"
-            android:textColor="@android:color/white"
-            android:textAllCaps="true" />
+            android:text="movies"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white" />
 
         <ImageButton
-            android:id="@+id/test_box2"
+            android:id="@+id/about"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -44,11 +44,11 @@
             android:onClick="about" />
 
         <ImageView
-            android:id="@+id/test_box"
+            android:id="@+id/toggleTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_toLeftOf="@id/test_box2"
+            android:layout_toLeftOf="@id/about"
             android:background="@drawable/ic_tv_black_24dp"
             android:foreground="@drawable/movie_click_action" />
 

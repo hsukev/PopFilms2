@@ -1,6 +1,8 @@
 package com.example.jerye.popfilms2.adapter;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.jerye.popfilms2.R;
@@ -48,11 +51,12 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         Target target = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                int dps = Utils.pxToDp(bitmap.getWidth());
-                holder.trailer_title.setMaxWidth(dps);
                 holder.trailer_title.setText(trailerList.get(position).getName());
+                ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(bitmap.getWidth(), ViewGroup.LayoutParams.WRAP_CONTENT);
+                Log.d("title","width:" + holder.trailer_title.getWidth() + "height:" + holder.trailer_title.getHeight());
                 holder.trailer_thumbnail.setImageDrawable(new BitmapDrawable(mContext.getResources(),bitmap));
-                Log.d("bitmap","width:" + bitmap.getWidth() + "dps:" + dps);
+//                Log.d("bitmap","width:" + bitmap.getWidth() + "dps:" + dps);
+                holder.trailer_title.setLayoutParams(params);
             }
 
             @Override
@@ -94,12 +98,29 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         TrailerViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            watchYoutubeVideo(String.valueOf(trailerList.get(getAdapterPosition()).getId()));
 
         }
     }
+
+    // Method to start an Intent to open YouTube video
+    public void watchYoutubeVideo(String id) {
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Utils.buildYouTubeAppUri(id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Utils.buildYouTubeWebUri(id));
+
+        // Open from either the YouTube app or website
+        try {
+            mContext.startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            mContext.startActivity(webIntent);
+        }
+    }
+
 
 }

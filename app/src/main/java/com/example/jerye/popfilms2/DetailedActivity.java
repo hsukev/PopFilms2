@@ -179,6 +179,9 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         trailerAdapter = new TrailerAdapter(this);
         trailer.setAdapter(trailerAdapter);
 
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);
+        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.light_text));
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         reviews.setLayoutManager(linearLayoutManager);
         reviewsAdapter = new ReviewsAdapter(this, this);
@@ -344,9 +347,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     @Override
     public void onPrepareLoad(Drawable placeHolderDrawable) {
         background.setImageDrawable(placeHolderDrawable);
-
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);
-        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.light_text));
     }
 
 }

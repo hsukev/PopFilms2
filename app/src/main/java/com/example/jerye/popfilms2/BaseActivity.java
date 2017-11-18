@@ -21,10 +21,12 @@ public class BaseActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.popfilms_title)
     TextView title;
-    @BindView(R.id.test_box)
-    ImageView box1;
-    @BindView(R.id.test_box2)
-    ImageView box2;
+    @BindView(R.id.toggleTv)
+    ImageView toggleTv;
+    @BindView(R.id.about)
+    ImageView about;
+    @BindView(R.id.toolbar_toggled_title)
+    TextView toggledTitle;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -46,13 +48,15 @@ public class BaseActivity extends AppCompatActivity {
         return title;
     }
 
-    public ImageView getBox1() {
-        return box1;
+    public ImageView getToggleTv() {
+        return toggleTv;
     }
 
-    public ImageView getBox2() {
-        return box2;
+    public ImageView getAbout() {
+        return about;
     }
+
+    public TextView getToggledTitle(){ return toggledTitle;}
 
     public void about(View view) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);

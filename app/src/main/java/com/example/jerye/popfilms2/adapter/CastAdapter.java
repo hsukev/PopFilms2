@@ -48,8 +48,12 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     }
 
     @Override
-    public void onBindViewHolder(CastViewHolder holder, int position) {
-        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + castList.get(position).getProfilePath()).into(holder.castProfile);
+    public void onBindViewHolder(final CastViewHolder holder, int position) {
+        String path = castList.get(position).getProfilePath();
+        if (path == null) {
+        } else {
+            Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + path).into(holder.castProfile);
+        }
         String name = castList.get(position).getName();
         holder.castName.setText(name.replace(' ', '\n'));
         String character = castList.get(position).getCharacter();
@@ -80,8 +84,8 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
     }
 
-    public void fetchingComplete(){
-        if(count<10){
+    public void fetchingComplete() {
+        if (count < 10) {
             notifyDataSetChanged();
             castAdapterListener.onComplete();
         }
@@ -102,12 +106,12 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
         @Override
         public void onClick(View view) {
-
         }
     }
 
     public interface CastAdapterListener {
         void onComplete();
     }
+
 
 }

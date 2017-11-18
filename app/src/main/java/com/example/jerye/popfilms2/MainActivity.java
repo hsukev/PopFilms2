@@ -31,8 +31,6 @@ public class MainActivity extends BaseActivity {
     TextView blank;
     @BindView(R.id.appbar)
     AppBarLayout appbar;
-    @BindView(R.id.toolbar_toggled_title)
-    TextView toggledTitle;
 
     private String movieTvToggle = "movie";
     private String toggledThirdTab = "upcoming";
@@ -136,8 +134,9 @@ public class MainActivity extends BaseActivity {
         int height = Utils.dpToPx(56);
         getToolbar().setTranslationY(-height);
         getAppTitle().setTranslationY(-height);
-        getBox1().setTranslationY(-height);
-        getBox2().setTranslationY(-height);
+        getToggledTitle().setTranslationY(-height);
+        getToggleTv().setTranslationY(-height);
+        getAbout().setTranslationY(-height);
 
         getToolbar().animate()
                 .translationY(0)
@@ -148,20 +147,25 @@ public class MainActivity extends BaseActivity {
                 .translationY(0)
                 .setDuration(300)
                 .setStartDelay(400);
-        getBox1().animate()
+
+        getToggledTitle().animate()
                 .translationY(0)
                 .setDuration(300)
                 .setStartDelay(500);
-
-        getBox2().animate()
+        getToggleTv().animate()
                 .translationY(0)
                 .setDuration(300)
-                .setStartDelay(600)
+                .setStartDelay(600);
+
+        getAbout().animate()
+                .translationY(0)
+                .setDuration(300)
+                .setStartDelay(700)
                 .start();
     }
 
     public void setToggle() {
-        getBox1().setOnClickListener(new View.OnClickListener() {
+        getToggleTv().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (movieTvToggle) {
@@ -170,7 +174,7 @@ public class MainActivity extends BaseActivity {
                         view.setBackground(getDrawable(R.drawable.ic_local_movies_black_24dp));
                         movieTvToggle = "tv";
                         toggledThirdTab = "on_the_air";
-                        toggledTitle.setText("tv shows");
+                        getToggledTitle().setText("tv shows");
                         adapter.notifyDataSetChanged();
 
                         window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.colorAccentDark));
@@ -185,7 +189,7 @@ public class MainActivity extends BaseActivity {
                         view.setBackground(getDrawable(R.drawable.ic_tv_black_24dp));
                         movieTvToggle = "movie";
                         toggledThirdTab = "upcoming";
-                        toggledTitle.setText("movies");
+                        getToggledTitle().setText("movies");
                         adapter.notifyDataSetChanged();
 
                         window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.colorPrimaryDark));
@@ -202,8 +206,8 @@ public class MainActivity extends BaseActivity {
     }
 
     public void revealTv() {
-        int x = (box1.getLeft() + box1.getRight()) / 2;
-        int y = (box1.getTop() + box1.getBottom()) / 2;
+        int x = (toggleTv.getLeft() + toggleTv.getRight()) / 2;
+        int y = (toggleTv.getTop() + toggleTv.getBottom()) / 2;
         int radius = (int) Math.hypot(appbar.getLeft() - x, appbar.getBottom() - y);
         Animator anim = ViewAnimationUtils.createCircularReveal(blank, x, y, 0, radius);
 
@@ -212,11 +216,11 @@ public class MainActivity extends BaseActivity {
     }
 
     public void revealMovie() {
-        int x = (box1.getLeft() + box1.getRight()) / 2;
-        Log.d("Main", box1.getLeft() +"-"+ box1.getRight());
-        int y = (box1.getTop() + box1.getBottom()) / 2;
+        int x = (toggleTv.getLeft() + toggleTv.getRight()) / 2;
+        Log.d("Main", toggleTv.getLeft() +"-"+ toggleTv.getRight());
+        int y = (toggleTv.getTop() + toggleTv.getBottom()) / 2;
         int radius = (int) Math.hypot(appbar.getLeft() - x, appbar.getBottom() - y);
-        Animator anim = ViewAnimationUtils.createCircularReveal(blank, box1.getRight(), y, radius, 0);
+        Animator anim = ViewAnimationUtils.createCircularReveal(blank, toggleTv.getRight(), y, radius, 0);
         anim.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
