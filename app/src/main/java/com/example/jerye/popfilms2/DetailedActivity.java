@@ -161,7 +161,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
         releaseDate.setText(sb.toString());
         summary.setText(movie.getOverview());
-        Log.d("DetailedActivity", movie.getOverview());
         genreList.setText(GenreScheme.getGenre(movie.getGenreIds(), movieTvToggle.equals("movie")), TextView.BufferType.SPANNABLE);
         ratingNumber.setText(String.valueOf(movie.getVoteAverage()));
         popularity.setText(String.valueOf(Math.round(movie.getPopularity())));
@@ -208,8 +207,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     }
 
     public void fetchData() {
-        Log.d("Cast", movieTvToggle + movie.getId() + BuildConfig.TMDB_API_KEY);
-
         Observable<Credits> creditsResult = castService.getMovieCredit(movieTvToggle, movie.getId(), BuildConfig.TMDB_API_KEY);
         creditsResult
                 .subscribeOn(Schedulers.io())

@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -40,7 +39,6 @@ public class Circle extends View {
         paint.setColor(Color.parseColor("#FFC107"));
 
         //size 200x200 example
-        Log.d("Test", "width height:" + getWidth() + getHeight());
 
         //Initial Angle (optional, it can be zero)
         angle = 0;

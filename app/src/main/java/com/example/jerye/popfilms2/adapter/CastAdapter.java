@@ -1,8 +1,10 @@
 package com.example.jerye.popfilms2.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +31,14 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     private List<Cast> castList = new ArrayList<>();
     private CastAdapterListener castAdapterListener;
     private int count = 0;
+    private Drawable blankProfile;
 
     public CastAdapter(Context context, CastAdapterListener castAdapterListener) {
         mContext = context;
         this.castAdapterListener = castAdapterListener;
-
+        Drawable dr = mContext.getDrawable(R.drawable.blank_cast);
+        Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+        blankProfile = new BitmapDrawable(mContext.getResources(), Bitmap.createScaledBitmap(bitmap, 185, 278,true));
     }
 
     @Override
@@ -51,6 +56,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     public void onBindViewHolder(final CastViewHolder holder, int position) {
         String path = castList.get(position).getProfilePath();
         if (path == null) {
+            holder.castProfile.setImageDrawable(blankProfile);
         } else {
             Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + path).into(holder.castProfile);
         }
@@ -69,7 +75,6 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     @Override
     public void onSuccess() {
         count++;
-        Log.d("CastAdapter", "Succeed:" + count);
 
         if (count == 10) {
             notifyDataSetChanged();
@@ -86,8 +91,8 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
     public void fetchingComplete() {
         if (count < 10) {
-            notifyDataSetChanged();
-            castAdapterListener.onComplete();
+//            notifyDataSetChanged();
+//            castAdapterListener.onComplete();
         }
     }
 

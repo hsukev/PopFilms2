@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity {
         getToolbar().animate()
                 .translationY(0)
                 .setDuration(300)
-                .setStartDelay(300);
+                .setStartDelay(300).start();
 
         getAppTitle().animate()
                 .translationY(0)
@@ -160,8 +160,7 @@ public class MainActivity extends BaseActivity {
         getAbout().animate()
                 .translationY(0)
                 .setDuration(300)
-                .setStartDelay(700)
-                .start();
+                .setStartDelay(700);
     }
 
     public void setToggle() {
