@@ -9,3 +9,5 @@
 .externalNativeBuild
 /gradle.properties
 /test.txt
+/PopFilms2.jks
+/keystore.properties

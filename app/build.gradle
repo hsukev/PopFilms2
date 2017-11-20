@@ -1,10 +1,8 @@
-import java.nio.file.Files
-
 apply plugin: 'com.android.application'
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
-def keystorePropertiesFile = Files.createDirectories('C:/Users/jerye/Documents/Key Store/PopFilms2.jks')
+def keystorePropertiesFile = rootProject.file('keystore.properties')
 
 // Initialize a new Properties() object called keystoreProperties.
 def keystoreProperties = new Properties()
