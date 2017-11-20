@@ -9,10 +9,10 @@
         android:id="@+id/load_screen"
         layout="@layout/loading_screen" />
 
-    <com.example.jerye.popfilms2.GridRecyclerView
+    <com.urbanutility.jerye.popfilms2.GridRecyclerView
         android:id="@+id/rv_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutAnimation="@anim/grid_animation"
-        android:scrollbars="vertical"></com.example.jerye.popfilms2.GridRecyclerView>
+        android:scrollbars="vertical"></com.urbanutility.jerye.popfilms2.GridRecyclerView>
 </FrameLayout>

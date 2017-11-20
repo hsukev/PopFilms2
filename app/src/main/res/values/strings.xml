@@ -1,9 +1,21 @@
 <resources>
     <string name="app_name">PopFilms</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="no_content">No content to display</string>
     <string name="about_message">PopFilms is a product of Urban Utility and powered by The Movie Database (TMDb)</string>
+
+    <string name="title_movies">movies</string>
+    <string name="title_tv_shows">tv shows</string>
+    <string name="general_tv">tv</string>
+    <string name="general_movie">movie</string>
+    <string name="tab_popular">popular</string>
+    <string name="tab_upcoming">upcoming</string>
+    <string name="tab_top_rated">top rated</string>
+    <string name="tab_on_the_air">on the air</string>
+    <string name="query_popular">popular</string>
+    <string name="query_upcoming">upcoming</string>
+    <string name="query_top_rated">top_rated</string>
+    <string name="query_on_the_air">on_the_air</string>
+    <string name="toast_tv_shows">Showing TV SHOWS</string>
+    <string name="toast_movies">Showing MOVIES</string>
 </resources>

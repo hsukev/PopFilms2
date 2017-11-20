@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-                        <com.example.jerye.popfilms2.util.Circle
+                        <com.urbanutility.jerye.popfilms2.util.Circle
                             android:id="@+id/detailed_rating"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
@@ -180,7 +180,7 @@
                     android:visibility="visible" />
             </FrameLayout>
 
-            <com.example.jerye.popfilms2.GridRecyclerView
+            <com.urbanutility.jerye.popfilms2.GridRecyclerView
                 android:id="@+id/detailed_cast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

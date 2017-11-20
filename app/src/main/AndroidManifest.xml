@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jerye.popfilms2">
+    package="com.urbanutility.jerye.popfilms2">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/popfilms"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name="com.urbanutility.jerye.popfilms2.MainActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailedActivity"
+        <activity android:name="com.urbanutility.jerye.popfilms2.DetailedActivity"
             android:theme="@style/AppTheme.Detailed"
             android:screenOrientation="portrait"/>
     </application>
