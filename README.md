@@ -1,6 +1,8 @@
 # PopFilms2
 PopFilms2 is an upgrade to PopFilms, a movie discovery app on Android. PopFilms2 features a smooth and dynamic user interface to discover new and old movies. This app takes advantage of interactive views and animations to enhance the entire user experience of browsing movies.
 
+Find PopFilms [Google Play Store](https://play.google.com/store/apps/details?id=com.urbanutility.jerye.popfilms2)!
+
 ## Featuring 
 * Discover popular, top rated, current TV Shows and Movies powered by The Movie Database (TMDb)
 * Adopted event-based programming with RxJava utilizing Observable streams
@@ -20,3 +22,9 @@ Animated rating circle, cascading cast | Content scrim, coordinated scrolling be
 
 <img src="https://user-images.githubusercontent.com/24646741/32987198-44ea29c6-cc99-11e7-99ad-9af983b0d636.gif" alt="stock main page" width="270" height="480"> <img src="https://user-images.githubusercontent.com/24646741/32987197-44cd6962-cc99-11e7-824c-0443cf5932b7.gif" alt="stock main page" width="270" height="480">
 
+### Attribution 
+[CircularImageView](https://github.com/hdodenhof/CircleImageView)
+
+[GridRecyclerView implementation](https://gist.github.com/Musenkishi/8df1ab549857756098ba)
+
+[Animated Circle](https://stackoverflow.com/questions/29381474/how-to-draw-a-circle-with-animation-in-android-with-circle-size-based-on-a-value)
