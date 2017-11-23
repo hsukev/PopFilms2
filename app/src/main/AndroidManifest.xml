@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.urbanutility.jerye.popfilms2.DetailedActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.Detailed"
             android:screenOrientation="portrait"/>
     </application>
