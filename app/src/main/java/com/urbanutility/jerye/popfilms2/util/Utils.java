@@ -3,7 +3,6 @@ package com.urbanutility.jerye.popfilms2.util;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
-import android.net.Uri;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -50,15 +49,6 @@ public class Utils {
         return SCREEN_WIDTH;
     }
 
-    //// YOUTUBE SECTION ////
-    public static Uri buildYouTubeWebUri(String videoKey){
-        Uri uri = Uri.parse("https://www.youtube.com/watch?v=" + videoKey);
-        return uri;
-    }
-    public static Uri buildYouTubeAppUri(String videoKey){
-        Uri uri = Uri.parse("vnd.youtube:" + videoKey);
-        return uri;
-    }
     public static String buildThumbnailUri(String thumbnailKey) {
         return String.format(youTubeVideoThumbnail, thumbnailKey);
     }

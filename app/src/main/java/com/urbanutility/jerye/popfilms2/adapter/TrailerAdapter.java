@@ -1,8 +1,6 @@
 package com.urbanutility.jerye.popfilms2.adapter;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -33,9 +31,11 @@ import butterknife.ButterKnife;
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHolder> {
     private List<Result> trailerList = new ArrayList<>();
     private Context mContext;
+    private TrailerAdapterListener trailerAdapterListener;
 
-    public TrailerAdapter(Context context) {
+    public TrailerAdapter(Context context, TrailerAdapterListener trailerAdapterListener) {
         mContext = context;
+        this.trailerAdapterListener = trailerAdapterListener;
     }
 
     @Override
@@ -101,23 +101,13 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
         @Override
         public void onClick(View view) {
-            watchYoutubeVideo(String.valueOf(trailerList.get(getAdapterPosition()).getId()));
+            trailerAdapterListener.onTrailerClick(trailerList.get(getAdapterPosition()).getKey());
 
         }
     }
 
-    // Method to start an Intent to open YouTube video
-    public void watchYoutubeVideo(String id) {
-        Intent appIntent = new Intent(Intent.ACTION_VIEW, Utils.buildYouTubeAppUri(id));
-        Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                Utils.buildYouTubeWebUri(id));
-
-        // Open from either the YouTube app or website
-        try {
-            mContext.startActivity(appIntent);
-        } catch (ActivityNotFoundException ex) {
-            mContext.startActivity(webIntent);
-        }
+    public interface TrailerAdapterListener{
+        void onTrailerClick(String youtubeId);
     }
 
 

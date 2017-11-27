@@ -40,7 +40,6 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.MovieAdapt
     @BindView(R.id.load_screen)
     ProgressBar loadBar;
 
-    int languagePreference;
     MoviesAdapter moviesAdapter;
     MoviesService moviesService;
     int page = 1;

@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/popfilms"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.urbanutility.jerye.popfilms2.MainActivity"
+        <activity
+            android:name="com.urbanutility.jerye.popfilms2.MainActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -20,10 +21,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.urbanutility.jerye.popfilms2.DetailedActivity"
+        <activity
+            android:name="com.urbanutility.jerye.popfilms2.DetailedActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.Detailed"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Detailed" />
+        <activity
+            android:name=".FragmentDemoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="nosensor">
+
+            <intent-filter>
+                <action android:name="com.google.android.youtube.api.service.START"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

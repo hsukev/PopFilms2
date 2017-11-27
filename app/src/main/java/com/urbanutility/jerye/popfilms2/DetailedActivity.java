@@ -1,5 +1,6 @@
 package com.urbanutility.jerye.popfilms2;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -20,6 +21,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubeIntents;
+import com.google.android.youtube.player.YouTubePlayer;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.urbanutility.jerye.popfilms2.adapter.CastAdapter;
@@ -58,6 +62,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DetailedActivity extends AppCompatActivity implements CastAdapter.CastAdapterListener,
         ReviewsAdapter.ReviewsAdapterListener,
+        TrailerAdapter.TrailerAdapterListener,
+        YouTubePlayer.OnInitializedListener,
         Target {
 
     @BindView(R.id.detailed_background)
@@ -93,7 +99,6 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     @BindView(R.id.detailed_trailer_null)
     TextView nullTrailer;
 
-    int languagePreference;
     Result movie;
     MoviesService castService;
     CastAdapter castAdapter;
@@ -116,6 +121,12 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
     public void onClick(com.urbanutility.jerye.popfilms2.data.model.review.Result fullReview) {
         ReviewDialog reviewDialog = ReviewDialog.newInstance(fullReview);
         reviewDialog.show(getSupportFragmentManager(), fullReviewString);
+    }
+
+    @Override
+    public void onTrailerClick(String youtubeId) {
+        Intent youTubeIntents = YouTubeIntents.createPlayVideoIntentWithOptions(this, youtubeId, false, true);
+        startActivity(youTubeIntents);
     }
 
     @Override
@@ -172,7 +183,7 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
         LinearLayoutManager linearLayoutManagerTrailer = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         trailer.setLayoutManager(linearLayoutManagerTrailer);
-        trailerAdapter = new TrailerAdapter(this);
+        trailerAdapter = new TrailerAdapter(this, this);
         trailer.setAdapter(trailerAdapter);
 
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedTitle);
@@ -249,7 +260,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
                     @Override
                     public void onComplete() {
-                        if (reviewsAdapter.getItemCount() == 0) nullReview.setVisibility(View.VISIBLE);
+                        if (reviewsAdapter.getItemCount() == 0)
+                            nullReview.setVisibility(View.VISIBLE);
 
                     }
                 });
@@ -273,7 +285,8 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
 
                     @Override
                     public void onComplete() {
-                        if (trailerAdapter.getItemCount() == 0) nullTrailer.setVisibility(View.VISIBLE);
+                        if (trailerAdapter.getItemCount() == 0)
+                            nullTrailer.setVisibility(View.VISIBLE);
                     }
                 });
     }
@@ -331,4 +344,13 @@ public class DetailedActivity extends AppCompatActivity implements CastAdapter.C
         background.setImageDrawable(placeHolderDrawable);
     }
 
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        youTubePlayer.play();
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+    }
 }

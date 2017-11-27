@@ -3,6 +3,9 @@
 
     <string name="no_content">No content to display</string>
     <string name="about_message">PopFilms is a product of Urban Utility and powered by The Movie Database (TMDb)</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+    <string name="playerfragment_text">This is a YouTubePlayerFragment!</string>
+
 
     <string name="title_movies">movies</string>
     <string name="title_tv_shows">tv shows</string>

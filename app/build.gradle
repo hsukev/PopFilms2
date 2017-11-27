@@ -38,6 +38,7 @@ android {
     }
     buildTypes.each {
         it.buildConfigField "String", "TMDB_API_KEY", TMDBApiKey
+        it.buildConfigField "String", "YOUTUBE_API_KEY", YouTubeApiKey
     }
 }
 
@@ -66,5 +67,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
     testCompile 'junit:junit:4.12'
 }
